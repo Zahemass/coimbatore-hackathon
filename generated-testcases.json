@@ -1,0 +1,33 @@
+[
+  {
+    "name": "Valid settings update",
+    "data": {
+      "username": "validUser",
+      "email": "user@example.com",
+      "password": "StrongP@ssw0rd"
+    }
+  },
+  {
+    "name": "Missing password",
+    "data": {
+      "username": "validUser",
+      "email": "user@example.com"
+    }
+  },
+  {
+    "name": "Invalid email format",
+    "data": {
+      "username": "validUser",
+      "email": "invalidEmail",
+      "password": "StrongP@ssw0rd"
+    }
+  },
+  {
+    "name": "Weak password",
+    "data": {
+      "username": "validUser",
+      "email": "user@example.com",
+      "password": "12345"
+    }
+  }
+]

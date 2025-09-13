@@ -1,3 +1,4 @@
+// filename: utils/promptUser.js
 import inquirer from "inquirer";
 
 export async function askPort() {
@@ -10,4 +11,20 @@ export async function askPort() {
     },
   ]);
   return port;
+}
+
+export async function askTestCases() {
+  const { num } = await inquirer.prompt([
+    {
+      type: "input",
+      name: "num",
+      message: "How many test cases to generate (1-7)?",
+      default: 2,
+      validate: (val) => {
+        const n = parseInt(val, 10);
+        return n >= 1 && n <= 7 ? true : "Please enter a number between 1 and 7";
+      },
+    },
+  ]);
+  return parseInt(num, 10);
 }

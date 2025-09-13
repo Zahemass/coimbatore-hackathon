@@ -1,0 +1,10 @@
+{
+  "endpoint": "/profile",
+  "methods": [
+    "get"
+  ],
+  "file": "C:\\Users\\Zzz\\OneDrive\\Desktop\\dev tools\\cli-api-tester\\sample\\index.js",
+  "instruction": "test my profile api in index.js",
+  "baseUrl": null,
+  "body": null
+}

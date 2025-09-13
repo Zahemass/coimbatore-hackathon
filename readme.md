@@ -11,7 +11,11 @@ cli-api-tester/
 
 
 testing write
-node cli.js " "
+node cli.js "test signup api in index.js file"
+node cli.js "test signup api with post"
+node cli.js "test login api with get"
+node cli.js autotest sample/index.js
+
 
 bash
-LAUNCH_UI=true node cli.js flowchart sample/index.js
+LAUNCH_UI=true node cli.js flowchart sample/frontend

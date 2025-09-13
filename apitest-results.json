@@ -1,0 +1,118 @@
+[
+  {
+    "method": "post",
+    "path": "/profile",
+    "case": "Test Case 1: Fetch profile",
+    "payload": {
+      "userId": "12345",
+      "token": "my-secret-token-987"
+    },
+    "status": 200
+  },
+  {
+    "method": "get",
+    "path": "/profile",
+    "case": "GET",
+    "error": {
+      "error": "Missing token (provide in request body as { token: '...' } or header Authorization: Bearer <token>)"
+    }
+  },
+  {
+    "method": "post",
+    "path": "/settings",
+    "case": "Test Case 1: Update theme",
+    "payload": {
+      "userId": "12345",
+      "token": "my-secret-token-987",
+      "theme": "dark"
+    },
+    "status": 200
+  },
+  {
+    "method": "get",
+    "path": "/health",
+    "case": "GET",
+    "status": 200
+  },
+  {
+    "method": "post",
+    "path": "/login",
+    "case": "Test Case 1: Valid login",
+    "payload": {
+      "username": "validUser",
+      "password": "StrongPassword123!"
+    },
+    "error": {
+      "error": "Missing email or password"
+    }
+  },
+  {
+    "method": "post",
+    "path": "/login",
+    "case": "Test Case 2: Missing password",
+    "payload": {
+      "username": "validUser"
+    },
+    "error": {
+      "error": "Missing email or password"
+    }
+  },
+  {
+    "method": "post",
+    "path": "/login",
+    "case": "Test Case 3: Invalid email format",
+    "payload": {
+      "username": "invalidEmailFormat",
+      "password": "StrongPassword123!"
+    },
+    "error": {
+      "error": "Missing email or password"
+    }
+  },
+  {
+    "method": "post",
+    "path": "/login",
+    "case": "Test Case 4: Weak password",
+    "payload": {
+      "username": "userWithWeakPassword",
+      "password": "123"
+    },
+    "error": {
+      "error": "Missing email or password"
+    }
+  },
+  {
+    "method": "post",
+    "path": "/signup",
+    "case": "Test Case 1: Valid signup",
+    "payload": {
+      "username": "validUser",
+      "email": "valid@example.com",
+      "password": "StrongPassword123!"
+    },
+    "status": 200
+  },
+  {
+    "method": "post",
+    "path": "/signup",
+    "case": "Test Case 2: Missing email",
+    "payload": {
+      "username": "noEmailUser",
+      "password": "StrongPassword123!"
+    },
+    "error": {
+      "error": "Missing name, email, or password"
+    }
+  },
+  {
+    "method": "post",
+    "path": "/signup",
+    "case": "Test Case 3: Weak password",
+    "payload": {
+      "username": "weakPasswordUser",
+      "email": "weak@example.com",
+      "password": "123"
+    },
+    "status": 200
+  }
+]

@@ -1,0 +1,144 @@
+{
+  "/login": [
+    {
+      "name": "Valid login",
+      "data": {
+        "username": "validUser",
+        "password": "StrongPassword123!"
+      }
+    },
+    {
+      "name": "Missing username",
+      "data": {
+        "password": "StrongPassword123!"
+      }
+    },
+    {
+      "name": "Missing password",
+      "data": {
+        "username": "validUser"
+      }
+    },
+    {
+      "name": "Invalid email format",
+      "data": {
+        "username": "invalidEmailFormat",
+        "password": "StrongPassword123!"
+      }
+    },
+    {
+      "name": "Weak password",
+      "data": {
+        "username": "validUser",
+        "password": "weak"
+      }
+    }
+  ],
+  "/signup": [
+    {
+      "name": "Valid signup",
+      "data": {
+        "username": "validUser",
+        "password": "StrongPassword123!",
+        "email": "valid@example.com"
+      }
+    },
+    {
+      "name": "Missing username",
+      "data": {
+        "password": "StrongPassword123!",
+        "email": "valid@example.com"
+      }
+    },
+    {
+      "name": "Missing password",
+      "data": {
+        "username": "userWithoutPassword",
+        "email": "valid@example.com"
+      }
+    },
+    {
+      "name": "Invalid email format",
+      "data": {
+        "username": "userWithInvalidEmail",
+        "password": "StrongPassword123!",
+        "email": "invalidEmailFormat"
+      }
+    },
+    {
+      "name": "Weak password",
+      "data": {
+        "username": "userWithWeakPassword",
+        "password": "12345",
+        "email": "valid@example.com"
+      }
+    }
+  ],
+  "/health": [
+    {
+      "name": "Valid health check",
+      "data": {}
+    },
+    {
+      "name": "Health check with extra field",
+      "data": {
+        "extra": "unexpected"
+      }
+    },
+    {
+      "name": "Health check with invalid format",
+      "data": {
+        "status": "unknown"
+      }
+    },
+    {
+      "name": "Health check with missing fields",
+      "data": {}
+    },
+    {
+      "name": "Health check with null value",
+      "data": {
+        "status": null
+      }
+    }
+  ],
+  "/profile": [
+    {
+      "name": "Valid profile update",
+      "data": {
+        "username": "validUser",
+        "email": "valid@example.com",
+        "password": "StrongPassword123!"
+      }
+    },
+    {
+      "name": "Missing username",
+      "data": {
+        "email": "valid@example.com",
+        "password": "StrongPassword123!"
+      }
+    },
+    {
+      "name": "Invalid email format",
+      "data": {
+        "username": "validUser",
+        "email": "invalidEmail",
+        "password": "StrongPassword123!"
+      }
+    },
+    {
+      "name": "Weak password",
+      "data": {
+        "username": "validUser",
+        "email": "valid@example.com",
+        "password": "123"
+      }
+    },
+    {
+      "name": "Missing email and password",
+      "data": {
+        "username": "validUser"
+      }
+    }
+  ]
+}

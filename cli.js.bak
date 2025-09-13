@@ -1,0 +1,178 @@
+// filename: cli.js
+import { Command } from "commander";
+import { parseInstruction } from "./parser.js";
+import { askPort, askTestCases } from "./utils/promptUser.js";
+import { detectPort } from "./utils/detectPort.js";
+import { runApiTests, runAutoTests } from "./tester.js";
+import { spawn } from "child_process";
+import path from "path";
+import fs from "fs";
+import { generateFlowchartData } from "./utils/flowGenerator.js";
+import {
+  generateReactFlowData,
+  generateFileFlowData,
+} from "./utils/reactFlowGenerator.js";
+import { extractRoutes } from "./utils/fileparser.js";
+
+const program = new Command();
+
+program
+  .name("apitester")
+  .description("Run natural language API tests, auto-tests, or generate flowcharts")
+  .arguments("<command> [file]")
+  .action(async (command, file) => {
+    // ---------- FLOWCHART MODE ----------
+    if (command === "flowchart") {
+      if (!file) {
+        console.error(
+          "❌ Please provide a file or directory.\n" +
+            "Example:\n" +
+            "   node cli.js flowchart sample/index.js\n" +
+            "   node cli.js flowchart sample/Reactproject/\n" +
+            "   node cli.js flowchart file sample/Reactproject/src/Header.jsx"
+        );
+        process.exit(1);
+      }
+
+      const fullPath = path.resolve(process.cwd(), file);
+      if (!fs.existsSync(fullPath)) {
+        console.error(`❌ Path not found: ${fullPath}`);
+        process.exit(1);
+      }
+
+      try {
+        let flowData;
+
+        if (file && file.startsWith("file")) {
+          const targetFile = process.argv[4];
+          if (!targetFile) {
+            console.error("❌ Please specify a file path after 'file'");
+            process.exit(1);
+          }
+          const abs = path.resolve(process.cwd(), targetFile);
+          console.log(`🔎 Generating file-level flow for ${abs} ...`);
+          flowData = generateFileFlowData(abs);
+        } else {
+          const stat = fs.statSync(fullPath);
+          if (stat.isDirectory()) {
+            console.log(`🔎 Scanning React project at ${fullPath} ...`);
+            flowData = generateReactFlowData(fullPath);
+          } else {
+            console.log(`🔎 Parsing single file ${fullPath} ...`);
+            flowData =
+              generateFileFlowData(fullPath) || generateFlowchartData(fullPath);
+          }
+        }
+
+        const outputFile = path.resolve("flowchart-ui/src/flowData.json");
+        fs.mkdirSync(path.dirname(outputFile), { recursive: true });
+        fs.writeFileSync(outputFile, JSON.stringify(flowData, null, 2));
+        console.log(`✅ Flowchart data written to ${outputFile}`);
+
+        // 🔥 Only try to launch UI if explicitly set
+        if (process.env.LAUNCH_UI === "true") {
+          try {
+            const uiPath = process.env.UI_PATH
+              ? path.resolve(process.env.UI_PATH)
+              : path.resolve("flowchart-ui");
+
+            const react = spawn("npm", ["start"], {
+              cwd: uiPath,
+              stdio: "inherit",
+              shell: true,
+            });
+
+            react.on("close", (code) => {
+              console.log(`⚡ Flowchart UI exited with code ${code}`);
+            });
+          } catch (uiErr) {
+            console.error("❌ Failed to fetch explanation.");
+          }
+        }
+      } catch (err) {
+        console.error("❌ Error generating flowchart:", err.message);
+        process.exit(1);
+      }
+      return;
+    }
+
+    // ---------- AUTO-TEST MODE ----------
+    if (command === "autotest") {
+      if (!file) {
+        console.error("❌ Please provide a file to scan for routes.");
+        process.exit(1);
+      }
+
+      const fullPath = path.resolve(process.cwd(), file);
+      if (!fs.existsSync(fullPath)) {
+        console.error(`❌ Path not found: ${fullPath}`);
+        process.exit(1);
+      }
+
+      try {
+        const routes = extractRoutes(fullPath);
+        if (routes.length === 0) {
+          console.log("⚠️ No routes detected in file.");
+          process.exit(0);
+        }
+
+        let port = detectPort(file) || (await askPort());
+        const numCases = await askTestCases();
+        await runAutoTests(routes, port, numCases);
+      } catch (err) {
+        console.error("❌ Error in autotest:", err.message);
+        process.exit(1);
+      }
+      return;
+    }
+    // inside cli.js
+if (command === "gui") {
+  if (!file) {
+    console.error("❌ Please provide an instruction.");
+    process.exit(1);
+  }
+
+  try {
+    const parsed = parseInstruction(file);
+
+    // Save prefilled data into a temp JSON file for the GUI
+    const payload = {
+      methods: parsed.methods,
+      endpoint: parsed.endpoint,
+      file: parsed.file,
+    };
+    fs.writeFileSync("gui-prefill.json", JSON.stringify(payload, null, 2));
+    console.log("✅ Prefill data saved for GUI");
+
+    // Launch the React GUI
+    const uiPath = path.resolve("cli-ui");
+    const react = spawn("npm", ["run", "dev"], {
+      cwd: uiPath,
+      stdio: "inherit",
+      shell: true,
+    });
+
+    react.on("close", (code) => {
+      console.log(`⚡ GUI exited with code ${code}`);
+    });
+  } catch (err) {
+    console.error("❌ Error starting GUI:", err.message);
+    process.exit(1);
+  }
+  return;
+}
+
+
+    // ---------- NORMAL API TEST ----------
+    try {
+      const parsed = parseInstruction(command);
+      const port = await askPort();
+      const numCases = await askTestCases();
+      await runApiTests(parsed, port, numCases);
+    } catch (err) {
+      console.error("❌ Error running tests:", err.message);
+      process.exit(1);
+    }
+  });
+
+program.parse(process.argv);

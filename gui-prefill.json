@@ -1,0 +1,8 @@
+{
+  "methods": [
+    "get",
+    "post"
+  ],
+  "endpoint": "/settings",
+  "file": "index.js"
+}

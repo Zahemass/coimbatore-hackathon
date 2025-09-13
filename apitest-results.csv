@@ -1,0 +1,12 @@
+METHOD,PATH,STATUS,TIME,ERROR
+post,/profile,200,,
+get,/profile,,,[object Object]
+post,/settings,200,,
+get,/health,200,,
+post,/login,,,[object Object]
+post,/login,,,[object Object]
+post,/login,,,[object Object]
+post,/login,,,[object Object]
+post,/signup,200,,
+post,/signup,,,[object Object]
+post,/signup,200,,

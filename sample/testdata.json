@@ -1,0 +1,14 @@
+{
+  "/profile": [
+    {
+      "name": "Fetch profile",
+      "data": { "userId": "{USER_ID}", "token": "{ACCESS_TOKEN}" }
+    }
+  ],
+  "/settings": [
+    {
+      "name": "Update theme",
+      "data": { "userId": "{USER_ID}", "token": "{ACCESS_TOKEN}", "theme": "dark" }
+    }
+  ]
+}
