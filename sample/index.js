@@ -91,12 +91,18 @@ app.post("/profile", authMiddleware, (req, res) => {
 });
 
 app.get("/profile", authMiddleware, (req, res) => {
-  res.json({
+  // support query param like /profile?details=full
+  const details = req.query.details || "basic";
+  const baseUser = {
     id: 1,
     name: "Alice Example",
     email: "test@example.com",
-    theme: "dark",
-  });
+  };
+
+  if (details === "full") {
+    return res.json({ ...baseUser, theme: "dark", role: "admin" });
+  }
+  res.json(baseUser);
 });
 
 // Settings
@@ -142,6 +148,18 @@ app.post("/signup", (req, res) => {
     message: "Signup successful",
     user: { id: Date.now(), username, email },
   });
+});
+
+// --- New: Example with route param + query param
+app.get("/users/:id", authMiddleware, (req, res) => {
+  const userId = req.params.id;
+  const expand = req.query.expand || "false";
+
+  const base = { id: userId, name: `User${userId}` };
+  if (expand === "true") {
+    return res.json({ ...base, email: `user${userId}@example.com`, role: "tester" });
+  }
+  res.json(base);
 });
 
 /* --------------------

@@ -197,5 +197,47 @@
         "password": "StrongPassword123!"
       }
     }
+  ],
+  "/users/:id": [
+    {
+      "name": "Valid User ID",
+      "data": {},
+      "params": {
+        "id": "12345"
+      },
+      "query": {}
+    },
+    {
+      "name": "Invalid User ID (non-numeric)",
+      "data": {},
+      "params": {
+        "id": "abcde"
+      },
+      "query": {}
+    },
+    {
+      "name": "Invalid User ID (missing ID)",
+      "data": {},
+      "params": {
+        "id": ""
+      },
+      "query": {}
+    },
+    {
+      "name": "User ID with special characters",
+      "data": {},
+      "params": {
+        "id": "@#$%"
+      },
+      "query": {}
+    },
+    {
+      "name": "Valid User ID (boundary case)",
+      "data": {},
+      "params": {
+        "id": "0"
+      },
+      "query": {}
+    }
   ]
 }

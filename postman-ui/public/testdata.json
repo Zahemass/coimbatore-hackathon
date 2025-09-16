@@ -97,7 +97,9 @@
       "data": {
         "userId": "12345",
         "token": "my-secret-token-987"
-      }
+      },
+      "params": {},
+      "query": {}
     }
   ],
   "/id": [

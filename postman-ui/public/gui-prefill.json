@@ -1,10 +1,12 @@
 {
   "endpoint": "/profile",
   "methods": [
-    "get"
+    "post"
   ],
   "file": "C:\\Users\\Zzz\\OneDrive\\Desktop\\dev tools\\cli-api-tester\\sample\\index.js",
-  "instruction": "test my profile api in index.js",
+  "instruction": "test my profile api",
   "baseUrl": null,
-  "body": null
+  "body": "{\n  \"userId\": \"12345\",\n  \"token\": \"my-secret-token-987\"\n}",
+  "params": {},
+  "query": {}
 }

@@ -103,27 +103,75 @@ program
     // ---------- FLOWCHART ----------
     if (command === "flowchart") {
       if (!file) {
-        console.error("❌ Provide a file/dir: e.g. node cli.js flowchart sample/index.js");
+        console.error(
+          "❌ Please provide a file or directory.\n" +
+            "Example:\n" +
+            "   node cli.js flowchart sample/index.js\n" +
+            "   node cli.js flowchart sample/Reactproject/\n" +
+            "   node cli.js flowchart file sample/Reactproject/src/Header.jsx"
+        );
         process.exit(1);
       }
+
       const fullPath = path.resolve(process.cwd(), file);
-      if (!fs.existsSync(fullPath)) { console.error(`❌ Path not found: ${fullPath}`); process.exit(1); }
+      if (!fs.existsSync(fullPath)) {
+        console.error(`❌ Path not found: ${fullPath}`);
+        process.exit(1);
+      }
+
       try {
         let flowData;
+
         if (file && file.startsWith("file")) {
           const targetFile = process.argv[4];
-          if (!targetFile) { console.error("❌ Please specify a file path after 'file'"); process.exit(1); }
-          flowData = generateFileFlowData(path.resolve(process.cwd(), targetFile));
+          if (!targetFile) {
+            console.error("❌ Please specify a file path after 'file'");
+            process.exit(1);
+          }
+          const abs = path.resolve(process.cwd(), targetFile);
+          console.log(`🔎 Generating file-level flow for ${abs} ...`);
+          flowData = generateFileFlowData(abs);
         } else {
           const stat = fs.statSync(fullPath);
-          if (stat.isDirectory()) flowData = generateReactFlowData(fullPath);
-          else flowData = generateFileFlowData(fullPath) || generateFlowchartData(fullPath);
+          if (stat.isDirectory()) {
+            console.log(`🔎 Scanning React project at ${fullPath} ...`);
+            flowData = generateReactFlowData(fullPath);
+          } else {
+            console.log(`🔎 Parsing single file ${fullPath} ...`);
+            flowData =
+              generateFileFlowData(fullPath) || generateFlowchartData(fullPath);
+          }
         }
+
         const outputFile = path.resolve("flowchart-ui/src/flowData.json");
         fs.mkdirSync(path.dirname(outputFile), { recursive: true });
         fs.writeFileSync(outputFile, JSON.stringify(flowData, null, 2));
         console.log(`✅ Flowchart data written to ${outputFile}`);
-      } catch (err) { console.error("❌ Error generating flowchart:", err.message || err); process.exit(1); }
+
+        // 🔥 Only try to launch UI if explicitly set
+        if (process.env.LAUNCH_UI === "true") {
+          try {
+            const uiPath = process.env.UI_PATH
+              ? path.resolve(process.env.UI_PATH)
+              : path.resolve("flowchart-ui");
+
+            const react = spawn("npm", ["start"], {
+              cwd: uiPath,
+              stdio: "inherit",
+              shell: true,
+            });
+
+            react.on("close", (code) => {
+              console.log(`⚡ Flowchart UI exited with code ${code}`);
+            });
+          } catch (uiErr) {
+            console.error("❌ Failed to fetch explanation.");
+          }
+        }
+      } catch (err) {
+        console.error("❌ Error generating flowchart:", err.message);
+        process.exit(1);
+      }
       return;
     }
 
@@ -306,6 +354,16 @@ program
             return { name: c.name, data: substitutePlaceholders(c.data, mergedEnv) };
           });
 
+          // 🔹 NEW: attach params/query separately
+          const enrichedCases = substitutedCases.map(c => {
+            return {
+              name: c.name,
+              data: c.data,
+              params: c.data?.params || {},
+              query: c.data?.query || {}
+            };
+          });
+
           // write substituted testdata.json into public dir (merge)
           try {
             const uiTestdataPath = path.join(publicDir, "testdata.json");
@@ -313,7 +371,7 @@ program
             if (fs.existsSync(uiTestdataPath)) {
               try { uiExisting = JSON.parse(fs.readFileSync(uiTestdataPath, "utf-8")); } catch {}
             }
-            uiExisting[endpointKey] = substitutedCases;
+            uiExisting[endpointKey] = enrichedCases;
             fs.writeFileSync(uiTestdataPath, JSON.stringify(uiExisting, null, 2));
             console.log("✅ wrote substituted test cases to", uiTestdataPath);
           } catch (err) {
@@ -321,8 +379,10 @@ program
           }
 
           // attach first substituted case as guiPrefill.body for immediate UI prefill
-          if (substitutedCases.length > 0) {
-            guiPrefill.body = JSON.stringify(substitutedCases[0].data, null, 2);
+          if (enrichedCases.length > 0) {
+            guiPrefill.body = JSON.stringify(enrichedCases[0].data, null, 2);
+            guiPrefill.params = enrichedCases[0].params;
+            guiPrefill.query = enrichedCases[0].query;
           }
         }
 
@@ -352,7 +412,9 @@ program
             file: guiPrefill.file || null,
             instruction: guiPrefill.instruction || null,
             baseUrl: guiPrefill.baseUrl || null,
-            body: guiPrefill.body || null
+            body: guiPrefill.body || null,
+            params: guiPrefill.params || null,
+            query: guiPrefill.query || null
           };
           fs.writeFileSync(prefillPath, JSON.stringify(toWrite, null, 2));
           console.log("✅ wrote prefill to", prefillPath);

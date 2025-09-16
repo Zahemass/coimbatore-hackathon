@@ -40,15 +40,19 @@ export function extractRoutes(filePath) {
           const firstArg = node.arguments?.[0];
           let routePath = null;
 
+          // Literal like "/profile"
           if (firstArg?.type === "Literal" && typeof firstArg.value === "string") {
             routePath = firstArg.value;
-          } else if (
+          }
+          // Template literal without expressions
+          else if (
             firstArg?.type === "TemplateLiteral" &&
             firstArg.expressions.length === 0
           ) {
             routePath = firstArg.quasis.map((q) => q.value.cooked).join("");
           }
 
+          // If we got a route path, normalize it
           if (routePath) {
             if (!routePath.startsWith("/")) routePath = "/" + routePath;
             routes.push({ method, path: routePath });
@@ -57,23 +61,36 @@ export function extractRoutes(filePath) {
       }
     });
 
-    // if AST found nothing, try regex fallback
+    // Regex fallback if AST fails
     if (routes.length === 0) {
       const regex = /\bapp\.(get|post|put|delete|patch)\s*\(\s*['"`]([^'"`]+)['"`]/g;
       let m;
       while ((m = regex.exec(code)) !== null) {
-        routes.push({ method: m[1], path: m[2] });
+        let pathStr = m[2];
+        if (!pathStr.startsWith("/")) pathStr = "/" + pathStr;
+        routes.push({ method: m[1], path: pathStr });
       }
     }
 
-    return routes;
+    // Deduplicate routes
+    const seen = new Set();
+    const uniqueRoutes = [];
+    for (const r of routes) {
+      const key = `${r.method}:${r.path}`;
+      if (!seen.has(key)) {
+        seen.add(key);
+        uniqueRoutes.push(r);
+      }
+    }
+
+    return uniqueRoutes;
   } catch (err) {
     console.error("❌ extractRoutes error in", filePath, err.message);
     return [];
   }
 }
 
-// recursive AST walker
+// Recursive AST walker
 function walkAst(node, callback) {
   if (!node || typeof node.type !== "string") return;
   callback(node);

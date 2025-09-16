@@ -56,33 +56,33 @@ const openai = new OpenAI({
 });
 
 // ✅ Explain code snippet
-app.post("/api/explain", async (req, res) => {
-  try {
-    const { code } = req.body;
-    if (!code) return res.status(400).json({ error: "Missing code snippet" });
+// app.post("/api/explain", async (req, res) => {
+//   try {
+//     const { code } = req.body;
+//     if (!code) return res.status(400).json({ error: "Missing code snippet" });
 
-    const response = await openai.chat.completions.create({
-      model: "gpt-4o-mini",
-      messages: [
-        {
-          role: "system",
-          content:
-            "You are a code assistant. Explain code very briefly and clearly in 2-3 sentences max.",
-        },
-        {
-          role: "user",
-          content: `Explain this code snippet:\n\n${code}`,
-        },
-      ],
-    });
+//     const response = await openai.chat.completions.create({
+//       model: "gpt-4o-mini",
+//       messages: [
+//         {
+//           role: "system",
+//           content:
+//             "You are a code assistant. Explain code very briefly and clearly in 2-3 sentences max.",
+//         },
+//         {
+//           role: "user",
+//           content: `Explain this code snippet:\n\n${code}`,
+//         },
+//       ],
+//     });
 
-    const explanation = response.choices[0].message.content.trim();
-    res.json({ explanation });
-  } catch (err) {
-    console.error("❌ Error in /api/explain:", err.response?.data || err.message);
-    res.status(500).json({ error: "Failed to explain code" });
-  }
-});
+//     const explanation = response.choices[0].message.content.trim();
+//     res.json({ explanation });
+//   } catch (err) {
+//     console.error("❌ Error in /api/explain:", err.response?.data || err.message);
+//     res.status(500).json({ error: "Failed to explain code" });
+//   }
+// });
 
 // ✅ Update code in file
 app.post("/api/code/update", (req, res) => {

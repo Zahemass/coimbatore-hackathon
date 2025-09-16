@@ -326,10 +326,7 @@ export async function runAutoTests(routes, port, numCases = 5) {
       for (const [index, testCase] of testCases.entries()) {
         const label = `Test Case ${index + 1}: ${testCase.name}`;
 
-        // DEBUG info
-        console.log(chalk.gray("DEBUG raw testCase.data:"), testCase.data);
-        console.log(chalk.gray("DEBUG envVars:"), Object.keys(envVars).length ? envVars : "(none)");
-
+        
         const payload = substituteEnvVars(testCase.data, envVars);
 
         console.log(`\n⚡ ${label}`);
