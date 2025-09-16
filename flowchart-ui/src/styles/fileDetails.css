@@ -1,0 +1,118 @@
+.details-panel {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 380px;
+  height: 100%;
+  background: #0d0d1a;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  box-shadow: -4px 0 15px rgba(0, 0, 0, 0.6);
+  overflow-y: auto;
+  z-index: 1000;
+}
+
+.panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.panel-header h3 {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.panel-header .muted {
+  font-size: 0.8rem;
+  color: #888;
+}
+
+.close-btn {
+  background: transparent;
+  border: none;
+  color: #ff4d4d;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.close-btn:hover {
+  transform: scale(1.1);
+}
+
+.card {
+  background: #1a1a2e;
+  border-radius: 10px;
+  padding: 0.75rem;
+  margin-bottom: 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
+}
+
+.card-title {
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.btn-row {
+  display: flex;
+  gap: 8px;
+  margin-top: 0.5rem;
+}
+
+.btn-row button {
+  padding: 6px 12px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-weight: 500;
+  transition: background 0.2s;
+}
+
+.btn-row button:first-child {
+  background: #4da6ff;
+  color: white;
+}
+.btn-row button:first-child:hover {
+  background: #1f7ae0;
+}
+
+.btn-row button:nth-child(2) {
+  background: #b366ff;
+  color: white;
+}
+.btn-row button:nth-child(2):hover {
+  background: #8d33e0;
+}
+/* New Edit button in preview */
+.edit-btn {
+  margin-top: 0.5rem;
+  padding: 6px 10px;
+  border-radius: 6px;
+  background: #4da6ff;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  font-size: 0.85rem;
+  transition: background 0.2s;
+}
+.edit-btn:hover {
+  background: #1f7ae0;
+}
+
+/* Editor card */
+.editor-card {
+  padding: 0;
+  background: #1a1a2e;
+}
+.editor-card .btn-row {
+  padding: 0.75rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
