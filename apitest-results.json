@@ -1,18 +1,58 @@
 [
   {
     "method": "post",
-    "path": "/profile",
-    "case": "Test Case 1: Fetch profile",
-    "payload": {
-      "userId": "12345",
-      "token": "my-secret-token-987"
+    "path": "/orders/:orderId",
+    "params": {
+      "orderId": "12345"
     },
+    "query": {},
+    "body": {
+      "product": "Laptop",
+      "qty": 1
+    },
+    "case": "Valid case - Update order with valid data",
+    "status": 200
+  },
+  {
+    "method": "post",
+    "path": "/orders/:orderId",
+    "params": {
+      "orderId": "99999"
+    },
+    "query": {},
+    "body": {
+      "product": "Tablet",
+      "qty": 2
+    },
+    "case": "Invalid case - Order ID not found",
     "status": 200
   },
   {
     "method": "get",
-    "path": "/profile",
-    "case": "GET",
+    "path": "/orders/:orderId",
+    "params": {
+      "orderId": "12345"
+    },
+    "query": {},
+    "body": {
+      "product": "Laptop",
+      "qty": 1
+    },
+    "case": "Valid case - Update order with valid data",
+    "status": 200
+  },
+  {
+    "method": "get",
+    "path": "/orders/:orderId",
+    "params": {
+      "orderId": "99999"
+    },
+    "query": {},
+    "body": {
+      "product": "Tablet",
+      "qty": 2
+    },
+    "case": "Invalid case - Order ID not found",
     "status": 200
   }
 ]

@@ -77,6 +77,14 @@ export function parseInstruction(instruction = "") {
     });
   }
 
+
+  // Detect Bearer token if mentioned (e.g. "with token=abc123")
+  let headers = {};
+  const tokenMatch = raw.match(/\btoken\s*=\s*([A-Za-z0-9\._-]+)/i);
+  if (tokenMatch) {
+    headers["Authorization"] = `Bearer ${tokenMatch[1]}`;
+  }
+
   // ----- query extraction (?key=value&key2=value2) -----
   const query = {};
   const queryMatch = raw.match(/\?([a-zA-Z0-9_=&-]+)/);
@@ -88,7 +96,8 @@ export function parseInstruction(instruction = "") {
     });
   }
 
-  return { methods, file, endpoint, params, query, raw };
+    return { methods, file, endpoint, params, query, headers, raw };
+
 }
 
 export default parseInstruction;

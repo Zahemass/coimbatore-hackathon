@@ -1,178 +1,36 @@
 {
-  "/login": [
+  "/orders/:orderId": [
     {
-      "name": "Valid login",
+      "name": "Valid case - Update order with valid data",
       "data": {
-        "username": "validUser",
-        "password": "StrongPassword123!"
-      }
-    },
-    {
-      "name": "Missing password",
-      "data": {
-        "username": "validUser"
-      }
-    },
-    {
-      "name": "Invalid email format",
-      "data": {
-        "username": "invalidEmailFormat",
-        "password": "StrongPassword123!"
-      }
-    },
-    {
-      "name": "Weak password",
-      "data": {
-        "username": "userWithWeakPassword",
-        "password": "123"
-      }
-    }
-  ],
-  "/signup": [
-    {
-      "name": "Valid signup",
-      "data": {
-        "username": "validUser",
-        "email": "valid@example.com",
-        "password": "StrongPassword123!"
-      }
-    },
-    {
-      "name": "Missing email",
-      "data": {
-        "username": "noEmailUser",
-        "password": "StrongPassword123!"
-      }
-    },
-    {
-      "name": "Weak password",
-      "data": {
-        "username": "weakPasswordUser",
-        "email": "weak@example.com",
-        "password": "123"
-      }
-    }
-  ],
-  "/health": [
-    {
-      "name": "Valid health check",
-      "data": {}
-    },
-    {
-      "name": "Invalid health check with extra field",
-      "data": {
-        "extraField": "unexpectedValue"
-      }
-    },
-    {
-      "name": "Health check with missing fields",
-      "data": {}
-    },
-    {
-      "name": "Health check with invalid format",
-      "data": {
-        "status": "not_a_boolean"
-      }
-    },
-    {
-      "name": "Health check with unexpected data type",
-      "data": {
-        "status": 12345
-      }
-    }
-  ],
-  "/settings": [
-    {
-      "name": "Update theme",
-      "data": {
-        "userId": "{USER_ID}",
-        "token": "{ACCESS_TOKEN}",
-        "theme": "dark"
-      }
-    }
-  ],
-  "/profile": [
-    {
-      "name": "Fetch profile",
-      "data": {
-        "userId": "12345",
-        "token": "my-secret-token-987"
+        "product": "Laptop",
+        "qty": 1
       },
-      "params": {},
+      "params": {
+        "orderId": "12345"
+      },
       "query": {}
-    }
-  ],
-  "/id": [
-    {
-      "name": "Valid ID request",
-      "data": {
-        "id": "12345"
-      }
     },
     {
-      "name": "Missing ID field",
-      "data": {}
+      "name": "Invalid case - Order ID not found",
+      "data": {
+        "product": "Tablet",
+        "qty": 2
+      },
+      "params": {
+        "orderId": "99999"
+      },
+      "query": {}
     },
     {
-      "name": "Invalid ID format",
+      "name": "Invalid case - Missing product field",
       "data": {
-        "id": "abcde"
-      }
-    },
-    {
-      "name": "Empty ID string",
-      "data": {
-        "id": ""
-      }
-    },
-    {
-      "name": "ID with special characters",
-      "data": {
-        "id": "!@#$%"
-      }
-    }
-  ],
-  "/my": [
-    {
-      "name": "fallback dummy",
-      "data": {
-        "test": "dummy"
-      }
-    }
-  ],
-  "/prifle": [
-    {
-      "name": "Valid request with correct data",
-      "data": {
-        "username": "validUser",
-        "password": "StrongPassword123!"
-      }
-    },
-    {
-      "name": "Missing username",
-      "data": {
-        "password": "StrongPassword123!"
-      }
-    },
-    {
-      "name": "Missing password",
-      "data": {
-        "username": "validUser"
-      }
-    },
-    {
-      "name": "Invalid password format (too weak)",
-      "data": {
-        "username": "validUser",
-        "password": "weak"
-      }
-    },
-    {
-      "name": "Invalid username format (special characters)",
-      "data": {
-        "username": "user@name",
-        "password": "StrongPassword123!"
-      }
+        "qty": 3
+      },
+      "params": {
+        "orderId": "54321"
+      },
+      "query": {}
     }
   ]
 }

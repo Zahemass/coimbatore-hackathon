@@ -1,7 +1,7 @@
 {
   "nodes": [
     {
-      "id": "C:\\Users\\Zzz\\OneDrive\\Desktop\\dev tools\\cli-api-tester\\sample\\frontend\\src\\App.jsx",
+      "id": "/home/zubair/Desktop/devbuddy/sample/frontend/src/App.jsx",
       "type": "fileNode",
       "position": {
         "x": 150,
@@ -9,12 +9,12 @@
       },
       "data": {
         "label": "App.jsx",
-        "relPath": "sample\\frontend\\src\\App.jsx",
+        "relPath": "sample/frontend/src/App.jsx",
         "summary": "Components: App • Routes: {\"path\":\"/\",\"element\":\"AdminLogin\"}; {\"path\":\"/dashboard\",\"element\":\"AddStudent\"}; {\"path\":\"/attendance\",\"element\":\"Attendance\"}; {\"path\":\"/students\",\"element\":\"StudentList\"}; {\"path\":\"/poll-summary\",\"element\":\"PollSummary\"}",
         "symbols": {
           "components": [
             {
-              "id": "sample\\frontend\\src\\App.jsx::component::App",
+              "id": "sample/frontend/src/App.jsx::component::App",
               "name": "App",
               "kind": "function",
               "start": 580,
@@ -194,7 +194,7 @@
       }
     },
     {
-      "id": "C:\\Users\\Zzz\\OneDrive\\Desktop\\dev tools\\cli-api-tester\\sample\\frontend\\src\\components\\AdminLogin.jsx",
+      "id": "/home/zubair/Desktop/devbuddy/sample/frontend/src/components/AdminLogin.jsx",
       "type": "fileNode",
       "position": {
         "x": 470,
@@ -202,17 +202,17 @@
       },
       "data": {
         "label": "AdminLogin.jsx",
-        "relPath": "sample\\frontend\\src\\components\\AdminLogin.jsx",
+        "relPath": "sample/frontend/src/components/AdminLogin.jsx",
         "summary": "Components: AdminLogin",
         "symbols": {
           "components": [
             {
-              "id": "sample\\frontend\\src\\components\\AdminLogin.jsx::component::AdminLogin",
+              "id": "sample/frontend/src/components/AdminLogin.jsx::component::AdminLogin",
               "name": "AdminLogin",
               "kind": "function",
-              "start": 220,
-              "end": 2749,
-              "code": "function AdminLogin() {\r\n  const [credentials, setCredentials] = useState({ email: \"\", password: \"\" });\r\n  const [error, setError] = useState(\"\");\r\n  const navigate = useNavigate();\r\n\r\n  const handleLogin = async () => {\r\n    try {\r\n      const res = await fetch(\"http://localhost:5000/admin-login\", {\r\n        method: \"POST\",\r\n        headers: { \"Content-Type\": \"application/json\" },\r\n        body: JSON.stringify(credentials),\r\n      });\r\n\r\n      const data = await res.json();\r\n\r\n      if (res.status === 200) {\r\n        navigate(\"/dashboard\"); // Redirect after success\r\n      } else {\r\n        setError(data.message || \"Invalid credentials\");\r\n      }\r\n    } catch (err) {\r\n      setError(\"Server error, try again later\");\r\n    }\r\n  };\r\n\r\n  return (\r\n    <Box\r\n      sx={{\r\n        minHeight: \"1…"
+              "start": 215,
+              "end": 2656,
+              "code": "function AdminLogin() {\n  const [credentials, setCredentials] = useState({ email: \"\", password: \"\" });\n  const [error, setError] = useState(\"\");\n  const navigate = useNavigate();\n\n  const handleLogin = async () => {\n    try {\n      const res = await fetch(\"http://localhost:5000/admin-login\", {\n        method: \"POST\",\n        headers: { \"Content-Type\": \"application/json\" },\n        body: JSON.stringify(credentials),\n      });\n\n      const data = await res.json();\n\n      if (res.status === 200) {\n        navigate(\"/dashboard\"); // Redirect after success\n      } else {\n        setError(data.message || \"Invalid credentials\");\n      }\n    } catch (err) {\n      setError(\"Server error, try again later\");\n    }\n  };\n\n  return (\n    <Box\n      sx={{\n        minHeight: \"100vh\",\n        display: \"fle…"
             }
           ],
           "hooks": [],
@@ -320,11 +320,11 @@
         ],
         "providers": [],
         "routes": [],
-        "code": "import React, { useState } from \"react\";\r\nimport { useNavigate } from \"react-router-dom\";\r\nimport { Container, Typography, TextField, Button, Paper, Box } from \"@mui/material\";\r\nimport logo from \"../assets/logo.png\";\r\n\r\nfunction AdminLogin() {\r\n  const [credentials, setCredentials] = useState({ email: \"\", password: \"\" });\r\n  const [error, setError] = useState(\"\");\r\n  const navigate = useNavigate();\r\n\r\n  const handleLogin = async () => {\r\n    try {\r\n      const res = await fetch(\"http://localhost:5000/admin-login\", {\r\n        method: \"POST\",\r\n        headers: { \"Content-Type\": \"application/json\" },\r\n        body: JSON.stringify(credentials),\r\n      });\r\n\r\n      const data = await res.json();\r\n\r\n      if (res.status === 200) {\r\n        navigate(\"/dashboard\"); // Redirect after success\r\n      } else {\r\n        setError(data.message || \"Invalid credentials\");\r\n      }\r\n    } catch (err) {\r\n      setError(\"Server error, try again later\");\r\n    }\r\n  };\r\n\r\n  return (\r\n    <Box\r\n      sx={{\r\n        minHeight: \"100vh\",\r\n        display: \"flex\",\r\n        alignItems: \"center\",\r\n        justifyContent: \"center\",\r\n        background: \"white\",\r\n      }}\r\n    >\r\n      <Container maxWidth=\"xs\">\r\n…"
+        "code": "import React, { useState } from \"react\";\nimport { useNavigate } from \"react-router-dom\";\nimport { Container, Typography, TextField, Button, Paper, Box } from \"@mui/material\";\nimport logo from \"../assets/logo.png\";\n\nfunction AdminLogin() {\n  const [credentials, setCredentials] = useState({ email: \"\", password: \"\" });\n  const [error, setError] = useState(\"\");\n  const navigate = useNavigate();\n\n  const handleLogin = async () => {\n    try {\n      const res = await fetch(\"http://localhost:5000/admin-login\", {\n        method: \"POST\",\n        headers: { \"Content-Type\": \"application/json\" },\n        body: JSON.stringify(credentials),\n      });\n\n      const data = await res.json();\n\n      if (res.status === 200) {\n        navigate(\"/dashboard\"); // Redirect after success\n      } else {\n        setError(data.message || \"Invalid credentials\");\n      }\n    } catch (err) {\n      setError(\"Server error, try again later\");\n    }\n  };\n\n  return (\n    <Box\n      sx={{\n        minHeight: \"100vh\",\n        display: \"flex\",\n        alignItems: \"center\",\n        justifyContent: \"center\",\n        background: \"white\",\n      }}\n    >\n      <Container maxWidth=\"xs\">\n        <Paper elevation={6} sx={{ p: 4, …"
       }
     },
     {
-      "id": "C:\\Users\\Zzz\\OneDrive\\Desktop\\dev tools\\cli-api-tester\\sample\\frontend\\src\\components\\Navbar.jsx",
+      "id": "/home/zubair/Desktop/devbuddy/sample/frontend/src/components/Navbar.jsx",
       "type": "fileNode",
       "position": {
         "x": 790,
@@ -332,17 +332,17 @@
       },
       "data": {
         "label": "Navbar.jsx",
-        "relPath": "sample\\frontend\\src\\components\\Navbar.jsx",
+        "relPath": "sample/frontend/src/components/Navbar.jsx",
         "summary": "Components: Navbar",
         "symbols": {
           "components": [
             {
-              "id": "sample\\frontend\\src\\components\\Navbar.jsx::component::Navbar",
+              "id": "sample/frontend/src/components/Navbar.jsx::component::Navbar",
               "name": "Navbar",
               "kind": "function",
-              "start": 345,
-              "end": 2976,
-              "code": "function Navbar() {\r\n  const [mobileOpen, setMobileOpen] = useState(false);\r\n\r\n  const handleDrawerToggle = () => {\r\n    setMobileOpen(!mobileOpen);\r\n  };\r\n\r\n  return (\r\n    <>\r\n      <AppBar position=\"static\" sx={{ backgroundColor: \"#2C3930\" }}>\r\n        <Toolbar>\r\n          {/* Mobile Menu Button */}\r\n          <IconButton\r\n            color=\"inherit\"\r\n            edge=\"start\"\r\n            onClick={handleDrawerToggle}\r\n            sx={{ display: { xs: \"block\", md: \"none\" } }}\r\n          >\r\n            <MenuIcon />\r\n          </IconButton>\r\n\r\n          {/* Logo and Title */}\r\n          <Box sx={{ flexGrow: 1, display: \"flex\", alignItems: \"center\" }}>\r\n            <img src={logo} alt=\"Logo\" style={{ height: 50, marginRight: 10 }} />\r\n            <Typography\r\n              variant=\"h6\"\r\n   …"
+              "start": 339,
+              "end": 2899,
+              "code": "function Navbar() {\n  const [mobileOpen, setMobileOpen] = useState(false);\n\n  const handleDrawerToggle = () => {\n    setMobileOpen(!mobileOpen);\n  };\n\n  return (\n    <>\n      <AppBar position=\"static\" sx={{ backgroundColor: \"#2C3930\" }}>\n        <Toolbar>\n          {/* Mobile Menu Button */}\n          <IconButton\n            color=\"inherit\"\n            edge=\"start\"\n            onClick={handleDrawerToggle}\n            sx={{ display: { xs: \"block\", md: \"none\" } }}\n          >\n            <MenuIcon />\n          </IconButton>\n\n          {/* Logo and Title */}\n          <Box sx={{ flexGrow: 1, display: \"flex\", alignItems: \"center\" }}>\n            <img src={logo} alt=\"Logo\" style={{ height: 50, marginRight: 10 }} />\n            <Typography\n              variant=\"h6\"\n              component={Link…"
             }
           ],
           "hooks": [],
@@ -511,11 +511,11 @@
         ],
         "providers": [],
         "routes": [],
-        "code": "import React, { useState } from \"react\";\r\nimport { AppBar, Toolbar, Typography, Button, Box, IconButton, Drawer, List, ListItem, ListItemText } from \"@mui/material\";\r\nimport MenuIcon from \"@mui/icons-material/Menu\";\r\nimport { Link } from \"react-router-dom\";\r\nimport logo from \"../assets/logo.png\"; // Ensure your logo is in the assets folder\r\n\r\nfunction Navbar() {\r\n  const [mobileOpen, setMobileOpen] = useState(false);\r\n\r\n  const handleDrawerToggle = () => {\r\n    setMobileOpen(!mobileOpen);\r\n  };\r\n\r\n  return (\r\n    <>\r\n      <AppBar position=\"static\" sx={{ backgroundColor: \"#2C3930\" }}>\r\n        <Toolbar>\r\n          {/* Mobile Menu Button */}\r\n          <IconButton\r\n            color=\"inherit\"\r\n            edge=\"start\"\r\n            onClick={handleDrawerToggle}\r\n            sx={{ display: { xs: \"block\", md: \"none\" } }}\r\n          >\r\n            <MenuIcon />\r\n          </IconButton>\r\n\r\n          {/* Logo and Title */}\r\n          <Box sx={{ flexGrow: 1, display: \"flex\", alignItems: \"center\" }}>\r\n            <img src={logo} alt=\"Logo\" style={{ height: 50, marginRight: 10 }} />\r\n            <Typography\r\n              variant=\"h6\"\r\n              component={Link}\r\n              to=\"/dashboa…"
+        "code": "import React, { useState } from \"react\";\nimport { AppBar, Toolbar, Typography, Button, Box, IconButton, Drawer, List, ListItem, ListItemText } from \"@mui/material\";\nimport MenuIcon from \"@mui/icons-material/Menu\";\nimport { Link } from \"react-router-dom\";\nimport logo from \"../assets/logo.png\"; // Ensure your logo is in the assets folder\n\nfunction Navbar() {\n  const [mobileOpen, setMobileOpen] = useState(false);\n\n  const handleDrawerToggle = () => {\n    setMobileOpen(!mobileOpen);\n  };\n\n  return (\n    <>\n      <AppBar position=\"static\" sx={{ backgroundColor: \"#2C3930\" }}>\n        <Toolbar>\n          {/* Mobile Menu Button */}\n          <IconButton\n            color=\"inherit\"\n            edge=\"start\"\n            onClick={handleDrawerToggle}\n            sx={{ display: { xs: \"block\", md: \"none\" } }}\n          >\n            <MenuIcon />\n          </IconButton>\n\n          {/* Logo and Title */}\n          <Box sx={{ flexGrow: 1, display: \"flex\", alignItems: \"center\" }}>\n            <img src={logo} alt=\"Logo\" style={{ height: 50, marginRight: 10 }} />\n            <Typography\n              variant=\"h6\"\n              component={Link}\n              to=\"/dashboard\"\n              sx={{ textDecor…"
       }
     },
     {
-      "id": "C:\\Users\\Zzz\\OneDrive\\Desktop\\dev tools\\cli-api-tester\\sample\\frontend\\src\\components\\StudentList.jsx",
+      "id": "/home/zubair/Desktop/devbuddy/sample/frontend/src/components/StudentList.jsx",
       "type": "fileNode",
       "position": {
         "x": 1110,
@@ -523,17 +523,17 @@
       },
       "data": {
         "label": "StudentList.jsx",
-        "relPath": "sample\\frontend\\src\\components\\StudentList.jsx",
+        "relPath": "sample/frontend/src/components/StudentList.jsx",
         "summary": "Components: StudentList",
         "symbols": {
           "components": [
             {
-              "id": "sample\\frontend\\src\\components\\StudentList.jsx::component::StudentList",
+              "id": "sample/frontend/src/components/StudentList.jsx::component::StudentList",
               "name": "StudentList",
               "kind": "function",
-              "start": 368,
-              "end": 4356,
-              "code": "function StudentList() {\r\n  const [students, setStudents] = useState([]);\r\n  const [filterDepartment, setFilterDepartment] = useState(\"\");\r\n  const navigate = useNavigate();\r\n\r\n  // Fetch all students from the backend\r\n  const fetchStudents = async () => {\r\n    try {\r\n      const response = await axios.get(\"http://localhost:5000/students\");\r\n      setStudents(response.data);\r\n    } catch (error) {\r\n      console.error(\"Error fetching students:\", error);\r\n      alert(\"Failed to fetch students.\");\r\n    }\r\n  };\r\n\r\n  // Fetch students on component mount\r\n  useEffect(() => {\r\n    fetchStudents();\r\n  }, []);\r\n\r\n  // Delete a student and re-generate QR codes for remaining students\r\n  const handleDelete = async (registerNumber) => {\r\n    try {\r\n      // Delete the student\r\n      await axios.delete…"
+              "start": 349,
+              "end": 4213,
+              "code": "function StudentList() {\n  const [students, setStudents] = useState([]);\n  const [filterDepartment, setFilterDepartment] = useState(\"\");\n  const navigate = useNavigate();\n\n  // Fetch all students from the backend\n  const fetchStudents = async () => {\n    try {\n      const response = await axios.get(\"http://localhost:5000/students\");\n      setStudents(response.data);\n    } catch (error) {\n      console.error(\"Error fetching students:\", error);\n      alert(\"Failed to fetch students.\");\n    }\n  };\n\n  // Fetch students on component mount\n  useEffect(() => {\n    fetchStudents();\n  }, []);\n\n  // Delete a student and re-generate QR codes for remaining students\n  const handleDelete = async (registerNumber) => {\n    try {\n      // Delete the student\n      await axios.delete(`http://localhost:5000/d…"
             }
           ],
           "hooks": [],
@@ -732,11 +732,11 @@
         ],
         "providers": [],
         "routes": [],
-        "code": "import React, { useEffect, useState } from \"react\";\r\nimport axios from \"axios\";\r\nimport { useNavigate } from \"react-router-dom\";\r\nimport {\r\n  Container,\r\n  Typography,\r\n  Table,\r\n  TableBody,\r\n  TableCell,\r\n  TableContainer,\r\n  TableHead,\r\n  TableRow,\r\n  Paper,\r\n  TextField,\r\n  Button,\r\n  Box,\r\n} from \"@mui/material\";\r\nimport Navbar from \"../components/Navbar\"; \r\n\r\nfunction StudentList() {\r\n  const [students, setStudents] = useState([]);\r\n  const [filterDepartment, setFilterDepartment] = useState(\"\");\r\n  const navigate = useNavigate();\r\n\r\n  // Fetch all students from the backend\r\n  const fetchStudents = async () => {\r\n    try {\r\n      const response = await axios.get(\"http://localhost:5000/students\");\r\n      setStudents(response.data);\r\n    } catch (error) {\r\n      console.error(\"Error fetching students:\", error);\r\n      alert(\"Failed to fetch students.\");\r\n    }\r\n  };\r\n\r\n  // Fetch students on component mount\r\n  useEffect(() => {\r\n    fetchStudents();\r\n  }, []);\r\n\r\n  // Delete a student and re-generate QR codes for remaining students\r\n  const handleDelete = async (registerNumber) => {\r\n    try {\r\n      // Delete the student\r\n      await axios.delete(`http://localhost:5000/delete-s…"
+        "code": "import React, { useEffect, useState } from \"react\";\nimport axios from \"axios\";\nimport { useNavigate } from \"react-router-dom\";\nimport {\n  Container,\n  Typography,\n  Table,\n  TableBody,\n  TableCell,\n  TableContainer,\n  TableHead,\n  TableRow,\n  Paper,\n  TextField,\n  Button,\n  Box,\n} from \"@mui/material\";\nimport Navbar from \"../components/Navbar\"; \n\nfunction StudentList() {\n  const [students, setStudents] = useState([]);\n  const [filterDepartment, setFilterDepartment] = useState(\"\");\n  const navigate = useNavigate();\n\n  // Fetch all students from the backend\n  const fetchStudents = async () => {\n    try {\n      const response = await axios.get(\"http://localhost:5000/students\");\n      setStudents(response.data);\n    } catch (error) {\n      console.error(\"Error fetching students:\", error);\n      alert(\"Failed to fetch students.\");\n    }\n  };\n\n  // Fetch students on component mount\n  useEffect(() => {\n    fetchStudents();\n  }, []);\n\n  // Delete a student and re-generate QR codes for remaining students\n  const handleDelete = async (registerNumber) => {\n    try {\n      // Delete the student\n      await axios.delete(`http://localhost:5000/delete-student/${registerNumber}`);\n      alert(\"Stu…"
       }
     },
     {
-      "id": "C:\\Users\\Zzz\\OneDrive\\Desktop\\dev tools\\cli-api-tester\\sample\\frontend\\src\\main.jsx",
+      "id": "/home/zubair/Desktop/devbuddy/sample/frontend/src/main.jsx",
       "type": "fileNode",
       "position": {
         "x": 1430,
@@ -744,7 +744,7 @@
       },
       "data": {
         "label": "main.jsx",
-        "relPath": "sample\\frontend\\src\\main.jsx",
+        "relPath": "sample/frontend/src/main.jsx",
         "summary": "",
         "symbols": {
           "components": [],
@@ -806,7 +806,7 @@
       }
     },
     {
-      "id": "C:\\Users\\Zzz\\OneDrive\\Desktop\\dev tools\\cli-api-tester\\sample\\frontend\\src\\pages\\AddStudent.jsx",
+      "id": "/home/zubair/Desktop/devbuddy/sample/frontend/src/pages/AddStudent.jsx",
       "type": "fileNode",
       "position": {
         "x": 150,
@@ -814,17 +814,17 @@
       },
       "data": {
         "label": "AddStudent.jsx",
-        "relPath": "sample\\frontend\\src\\pages\\AddStudent.jsx",
+        "relPath": "sample/frontend/src/pages/AddStudent.jsx",
         "summary": "Components: AddStudent",
         "symbols": {
           "components": [
             {
-              "id": "sample\\frontend\\src\\pages\\AddStudent.jsx::component::AddStudent",
+              "id": "sample/frontend/src/pages/AddStudent.jsx::component::AddStudent",
               "name": "AddStudent",
               "kind": "function",
-              "start": 299,
-              "end": 4775,
-              "code": "function AddStudent() {\r\n  const [student, setStudent] = useState({\r\n    name: \"\",\r\n    registerNumber: \"\",\r\n    department: \"\",\r\n    shift: \"\",\r\n  });\r\n  const [qrCode, setQrCode] = useState(\"\");\r\n  const [qrMessage, setQrMessage] = useState(\"\");\r\n\r\n  // Fetch QR automatically\r\n  const fetchQr = async () => {\r\n    try {\r\n      const response = await axios.get(\"http://localhost:5000/generate-qr\");\r\n      setQrCode(response.data.qrCode);\r\n      setQrMessage(\"\");\r\n    } catch (error) {\r\n      setQrCode(\"\");\r\n      setQrMessage(\"QR code is only available between 1 PM and 3 PM\");\r\n    }\r\n  };\r\n\r\n  // Run once on load + refresh every minute\r\n  useEffect(() => {\r\n    fetchQr();\r\n    const interval = setInterval(fetchQr, 60000); // refresh every 60 sec\r\n    return () => clearInterval(interval);\r\n…"
+              "start": 282,
+              "end": 4621,
+              "code": "function AddStudent() {\n  const [student, setStudent] = useState({\n    name: \"\",\n    registerNumber: \"\",\n    department: \"\",\n    shift: \"\",\n  });\n  const [qrCode, setQrCode] = useState(\"\");\n  const [qrMessage, setQrMessage] = useState(\"\");\n\n  // Fetch QR automatically\n  const fetchQr = async () => {\n    try {\n      const response = await axios.get(\"http://localhost:5000/generate-qr\");\n      setQrCode(response.data.qrCode);\n      setQrMessage(\"\");\n    } catch (error) {\n      setQrCode(\"\");\n      setQrMessage(\"QR code is only available between 1 PM and 3 PM\");\n    }\n  };\n\n  // Run once on load + refresh every minute\n  useEffect(() => {\n    fetchQr();\n    const interval = setInterval(fetchQr, 60000); // refresh every 60 sec\n    return () => clearInterval(interval);\n  }, []);\n\n  const handleAd…"
             }
           ],
           "hooks": [],
@@ -1019,11 +1019,11 @@
         ],
         "providers": [],
         "routes": [],
-        "code": "import React, { useState, useEffect } from \"react\";\r\nimport axios from \"axios\";\r\nimport {\r\n  Container,\r\n  Typography,\r\n  TextField,\r\n  Button,\r\n  Grid,\r\n  Box,\r\n  Paper,\r\n  Select,\r\n  MenuItem,\r\n  FormControl,\r\n  InputLabel,\r\n} from \"@mui/material\";\r\nimport Navbar from \"../components/Navbar\"; \r\n\r\nfunction AddStudent() {\r\n  const [student, setStudent] = useState({\r\n    name: \"\",\r\n    registerNumber: \"\",\r\n    department: \"\",\r\n    shift: \"\",\r\n  });\r\n  const [qrCode, setQrCode] = useState(\"\");\r\n  const [qrMessage, setQrMessage] = useState(\"\");\r\n\r\n  // Fetch QR automatically\r\n  const fetchQr = async () => {\r\n    try {\r\n      const response = await axios.get(\"http://localhost:5000/generate-qr\");\r\n      setQrCode(response.data.qrCode);\r\n      setQrMessage(\"\");\r\n    } catch (error) {\r\n      setQrCode(\"\");\r\n      setQrMessage(\"QR code is only available between 1 PM and 3 PM\");\r\n    }\r\n  };\r\n\r\n  // Run once on load + refresh every minute\r\n  useEffect(() => {\r\n    fetchQr();\r\n    const interval = setInterval(fetchQr, 60000); // refresh every 60 sec\r\n    return () => clearInterval(interval);\r\n  }, []);\r\n\r\n  const handleAddStudent = async () => {\r\n    try {\r\n      await axios.post(\"http://loca…"
+        "code": "import React, { useState, useEffect } from \"react\";\nimport axios from \"axios\";\nimport {\n  Container,\n  Typography,\n  TextField,\n  Button,\n  Grid,\n  Box,\n  Paper,\n  Select,\n  MenuItem,\n  FormControl,\n  InputLabel,\n} from \"@mui/material\";\nimport Navbar from \"../components/Navbar\"; \n\nfunction AddStudent() {\n  const [student, setStudent] = useState({\n    name: \"\",\n    registerNumber: \"\",\n    department: \"\",\n    shift: \"\",\n  });\n  const [qrCode, setQrCode] = useState(\"\");\n  const [qrMessage, setQrMessage] = useState(\"\");\n\n  // Fetch QR automatically\n  const fetchQr = async () => {\n    try {\n      const response = await axios.get(\"http://localhost:5000/generate-qr\");\n      setQrCode(response.data.qrCode);\n      setQrMessage(\"\");\n    } catch (error) {\n      setQrCode(\"\");\n      setQrMessage(\"QR code is only available between 1 PM and 3 PM\");\n    }\n  };\n\n  // Run once on load + refresh every minute\n  useEffect(() => {\n    fetchQr();\n    const interval = setInterval(fetchQr, 60000); // refresh every 60 sec\n    return () => clearInterval(interval);\n  }, []);\n\n  const handleAddStudent = async () => {\n    try {\n      await axios.post(\"http://localhost:5000/add-student\", student);\n      alert(\"…"
       }
     },
     {
-      "id": "C:\\Users\\Zzz\\OneDrive\\Desktop\\dev tools\\cli-api-tester\\sample\\frontend\\src\\pages\\Attendance.jsx",
+      "id": "/home/zubair/Desktop/devbuddy/sample/frontend/src/pages/Attendance.jsx",
       "type": "fileNode",
       "position": {
         "x": 470,
@@ -1031,17 +1031,17 @@
       },
       "data": {
         "label": "Attendance.jsx",
-        "relPath": "sample\\frontend\\src\\pages\\Attendance.jsx",
+        "relPath": "sample/frontend/src/pages/Attendance.jsx",
         "summary": "Components: Attendance",
         "symbols": {
           "components": [
             {
-              "id": "sample\\frontend\\src\\pages\\Attendance.jsx::component::Attendance",
+              "id": "sample/frontend/src/pages/Attendance.jsx::component::Attendance",
               "name": "Attendance",
               "kind": "function",
-              "start": 344,
-              "end": 3415,
-              "code": "function Attendance() {\r\n  const [attendance, setAttendance] = useState([]);\r\n  const [filterDate, setFilterDate] = useState(new Date().toISOString().split(\"T\")[0]); // Default to today's date\r\n  const [filterRegisterNumber, setFilterRegisterNumber] = useState(\"\"); // Register Number filter\r\n  const navigate = useNavigate();\r\n\r\n  useEffect(() => {\r\n    const fetchAttendance = async () => {\r\n      const response = await axios.get(\"http://localhost:5000/attendance\");\r\n      setAttendance(response.data);\r\n    };\r\n    fetchAttendance();\r\n  }, []);\r\n\r\n  // Filtering based on Date and Register Number\r\n  const filteredAttendance = attendance.filter((record) =>\r\n    (filterDate ? record.date === filterDate : true) &&\r\n    (filterRegisterNumber ? record.registerNumber.includes(filterRegisterNumber)…"
+              "start": 334,
+              "end": 3321,
+              "code": "function Attendance() {\n  const [attendance, setAttendance] = useState([]);\n  const [filterDate, setFilterDate] = useState(new Date().toISOString().split(\"T\")[0]); // Default to today's date\n  const [filterRegisterNumber, setFilterRegisterNumber] = useState(\"\"); // Register Number filter\n  const navigate = useNavigate();\n\n  useEffect(() => {\n    const fetchAttendance = async () => {\n      const response = await axios.get(\"http://localhost:5000/attendance\");\n      setAttendance(response.data);\n    };\n    fetchAttendance();\n  }, []);\n\n  // Filtering based on Date and Register Number\n  const filteredAttendance = attendance.filter((record) =>\n    (filterDate ? record.date === filterDate : true) &&\n    (filterRegisterNumber ? record.registerNumber.includes(filterRegisterNumber) : true)\n  );\n\n  …"
             }
           ],
           "hooks": [],
@@ -1246,11 +1246,11 @@
         ],
         "providers": [],
         "routes": [],
-        "code": "import React, { useEffect, useState } from \"react\";\r\nimport axios from \"axios\";\r\nimport { useNavigate } from \"react-router-dom\";\r\nimport { \r\n  Container, Typography, Table, TableBody, TableCell, \r\n  TableContainer, TableHead, TableRow, Paper, Button, \r\n  TextField, Box \r\n} from \"@mui/material\";\r\nimport Navbar from \"../components/Navbar\"; \r\n\r\nfunction Attendance() {\r\n  const [attendance, setAttendance] = useState([]);\r\n  const [filterDate, setFilterDate] = useState(new Date().toISOString().split(\"T\")[0]); // Default to today's date\r\n  const [filterRegisterNumber, setFilterRegisterNumber] = useState(\"\"); // Register Number filter\r\n  const navigate = useNavigate();\r\n\r\n  useEffect(() => {\r\n    const fetchAttendance = async () => {\r\n      const response = await axios.get(\"http://localhost:5000/attendance\");\r\n      setAttendance(response.data);\r\n    };\r\n    fetchAttendance();\r\n  }, []);\r\n\r\n  // Filtering based on Date and Register Number\r\n  const filteredAttendance = attendance.filter((record) =>\r\n    (filterDate ? record.date === filterDate : true) &&\r\n    (filterRegisterNumber ? record.registerNumber.includes(filterRegisterNumber) : true)\r\n  );\r\n\r\n  return (\r\n    <>\r\n    <Navbar />\r\n  …"
+        "code": "import React, { useEffect, useState } from \"react\";\nimport axios from \"axios\";\nimport { useNavigate } from \"react-router-dom\";\nimport { \n  Container, Typography, Table, TableBody, TableCell, \n  TableContainer, TableHead, TableRow, Paper, Button, \n  TextField, Box \n} from \"@mui/material\";\nimport Navbar from \"../components/Navbar\"; \n\nfunction Attendance() {\n  const [attendance, setAttendance] = useState([]);\n  const [filterDate, setFilterDate] = useState(new Date().toISOString().split(\"T\")[0]); // Default to today's date\n  const [filterRegisterNumber, setFilterRegisterNumber] = useState(\"\"); // Register Number filter\n  const navigate = useNavigate();\n\n  useEffect(() => {\n    const fetchAttendance = async () => {\n      const response = await axios.get(\"http://localhost:5000/attendance\");\n      setAttendance(response.data);\n    };\n    fetchAttendance();\n  }, []);\n\n  // Filtering based on Date and Register Number\n  const filteredAttendance = attendance.filter((record) =>\n    (filterDate ? record.date === filterDate : true) &&\n    (filterRegisterNumber ? record.registerNumber.includes(filterRegisterNumber) : true)\n  );\n\n  return (\n    <>\n    <Navbar />\n    <Container maxWidth=\"lg\" sx={{ …"
       }
     },
     {
-      "id": "C:\\Users\\Zzz\\OneDrive\\Desktop\\dev tools\\cli-api-tester\\sample\\frontend\\src\\pages\\PollSummary.jsx",
+      "id": "/home/zubair/Desktop/devbuddy/sample/frontend/src/pages/PollSummary.jsx",
       "type": "fileNode",
       "position": {
         "x": 790,
@@ -1258,17 +1258,17 @@
       },
       "data": {
         "label": "PollSummary.jsx",
-        "relPath": "sample\\frontend\\src\\pages\\PollSummary.jsx",
+        "relPath": "sample/frontend/src/pages/PollSummary.jsx",
         "summary": "Components: PollSummary",
         "symbols": {
           "components": [
             {
-              "id": "sample\\frontend\\src\\pages\\PollSummary.jsx::component::PollSummary",
+              "id": "sample/frontend/src/pages/PollSummary.jsx::component::PollSummary",
               "name": "PollSummary",
               "kind": "function",
-              "start": 365,
-              "end": 4776,
-              "code": "function PollSummary() {\r\n  const [pollData, setPollData] = useState([]);\r\n  const [count, setCount] = useState(0);\r\n  const [date, setDate] = useState(new Date().toISOString().split(\"T\")[0]); // default today\r\n\r\n  useEffect(() => {\r\n    fetchPollSummary(date);\r\n  }, [date]);\r\n\r\n  const fetchPollSummary = async (selectedDate) => {\r\n    try {\r\n      const res = await fetch(`http://localhost:5000/poll-summary/${selectedDate}`);\r\n      const data = await res.json();\r\n      setPollData(data.students || []);\r\n      setCount(data.count || 0);\r\n    } catch (err) {\r\n      console.error(\"Error fetching poll summary:\", err);\r\n    }\r\n  };\r\n\r\n  const chartData = [\r\n    { name: \"YES\", value: count },\r\n    { name: \"NO\", value: pollData.length > 0 ? pollData.length - count : 0 },\r\n  ];\r\n\r\n  const COLORS …"
+              "start": 346,
+              "end": 4625,
+              "code": "function PollSummary() {\n  const [pollData, setPollData] = useState([]);\n  const [count, setCount] = useState(0);\n  const [date, setDate] = useState(new Date().toISOString().split(\"T\")[0]); // default today\n\n  useEffect(() => {\n    fetchPollSummary(date);\n  }, [date]);\n\n  const fetchPollSummary = async (selectedDate) => {\n    try {\n      const res = await fetch(`http://localhost:5000/poll-summary/${selectedDate}`);\n      const data = await res.json();\n      setPollData(data.students || []);\n      setCount(data.count || 0);\n    } catch (err) {\n      console.error(\"Error fetching poll summary:\", err);\n    }\n  };\n\n  const chartData = [\n    { name: \"YES\", value: count },\n    { name: \"NO\", value: pollData.length > 0 ? pollData.length - count : 0 },\n  ];\n\n  const COLORS = [\"#4CAF50\", \"#F44336\"];…"
             }
           ],
           "hooks": [],
@@ -1514,7 +1514,7 @@
         ],
         "providers": [],
         "routes": [],
-        "code": "import React, { useEffect, useState } from \"react\";\r\nimport {\r\n  Container,\r\n  Typography,\r\n  Paper,\r\n  Table,\r\n  TableBody,\r\n  TableCell,\r\n  TableContainer,\r\n  TableHead,\r\n  TableRow,\r\n  Button,\r\n  TextField,\r\n  Grid,\r\n  Box,\r\n} from \"@mui/material\";\r\nimport { PieChart, Pie, Cell, Tooltip, Legend } from \"recharts\";\r\nimport Navbar from \"../components/Navbar\";\r\n\r\nfunction PollSummary() {\r\n  const [pollData, setPollData] = useState([]);\r\n  const [count, setCount] = useState(0);\r\n  const [date, setDate] = useState(new Date().toISOString().split(\"T\")[0]); // default today\r\n\r\n  useEffect(() => {\r\n    fetchPollSummary(date);\r\n  }, [date]);\r\n\r\n  const fetchPollSummary = async (selectedDate) => {\r\n    try {\r\n      const res = await fetch(`http://localhost:5000/poll-summary/${selectedDate}`);\r\n      const data = await res.json();\r\n      setPollData(data.students || []);\r\n      setCount(data.count || 0);\r\n    } catch (err) {\r\n      console.error(\"Error fetching poll summary:\", err);\r\n    }\r\n  };\r\n\r\n  const chartData = [\r\n    { name: \"YES\", value: count },\r\n    { name: \"NO\", value: pollData.length > 0 ? pollData.length - count : 0 },\r\n  ];\r\n\r\n  const COLORS = [\"#4CAF50\", \"#F44336\"];\r\n\r\n  retu…"
+        "code": "import React, { useEffect, useState } from \"react\";\nimport {\n  Container,\n  Typography,\n  Paper,\n  Table,\n  TableBody,\n  TableCell,\n  TableContainer,\n  TableHead,\n  TableRow,\n  Button,\n  TextField,\n  Grid,\n  Box,\n} from \"@mui/material\";\nimport { PieChart, Pie, Cell, Tooltip, Legend } from \"recharts\";\nimport Navbar from \"../components/Navbar\";\n\nfunction PollSummary() {\n  const [pollData, setPollData] = useState([]);\n  const [count, setCount] = useState(0);\n  const [date, setDate] = useState(new Date().toISOString().split(\"T\")[0]); // default today\n\n  useEffect(() => {\n    fetchPollSummary(date);\n  }, [date]);\n\n  const fetchPollSummary = async (selectedDate) => {\n    try {\n      const res = await fetch(`http://localhost:5000/poll-summary/${selectedDate}`);\n      const data = await res.json();\n      setPollData(data.students || []);\n      setCount(data.count || 0);\n    } catch (err) {\n      console.error(\"Error fetching poll summary:\", err);\n    }\n  };\n\n  const chartData = [\n    { name: \"YES\", value: count },\n    { name: \"NO\", value: pollData.length > 0 ? pollData.length - count : 0 },\n  ];\n\n  const COLORS = [\"#4CAF50\", \"#F44336\"];\n\n  return (\n    <>\n      <Navbar />\n      <Container …"
       }
     },
     {
@@ -1640,8 +1640,8 @@
   ],
   "edges": [
     {
-      "id": "imp-C:\\Users\\Zzz\\OneDrive\\Desktop\\dev tools\\cli-api-tester\\sample\\frontend\\src\\App.jsx-pkg:react",
-      "source": "C:\\Users\\Zzz\\OneDrive\\Desktop\\dev tools\\cli-api-tester\\sample\\frontend\\src\\App.jsx",
+      "id": "imp-/home/zubair/Desktop/devbuddy/sample/frontend/src/App.jsx-pkg:react",
+      "source": "/home/zubair/Desktop/devbuddy/sample/frontend/src/App.jsx",
       "target": "pkg:react",
       "animated": false,
       "type": "import-package",
@@ -1650,8 +1650,8 @@
       }
     },
     {
-      "id": "imp-C:\\Users\\Zzz\\OneDrive\\Desktop\\dev tools\\cli-api-tester\\sample\\frontend\\src\\App.jsx-pkg:react-router-dom",
-      "source": "C:\\Users\\Zzz\\OneDrive\\Desktop\\dev tools\\cli-api-tester\\sample\\frontend\\src\\App.jsx",
+      "id": "imp-/home/zubair/Desktop/devbuddy/sample/frontend/src/App.jsx-pkg:react-router-dom",
+      "source": "/home/zubair/Desktop/devbuddy/sample/frontend/src/App.jsx",
       "target": "pkg:react-router-dom",
       "animated": false,
       "type": "import-package",
@@ -1660,9 +1660,9 @@
       }
     },
     {
-      "id": "imp-C:\\Users\\Zzz\\OneDrive\\Desktop\\dev tools\\cli-api-tester\\sample\\frontend\\src\\App.jsx-C:\\Users\\Zzz\\OneDrive\\Desktop\\dev tools\\cli-api-tester\\sample\\frontend\\src\\components\\AdminLogin.jsx",
-      "source": "C:\\Users\\Zzz\\OneDrive\\Desktop\\dev tools\\cli-api-tester\\sample\\frontend\\src\\App.jsx",
-      "target": "C:\\Users\\Zzz\\OneDrive\\Desktop\\dev tools\\cli-api-tester\\sample\\frontend\\src\\components\\AdminLogin.jsx",
+      "id": "imp-/home/zubair/Desktop/devbuddy/sample/frontend/src/App.jsx-/home/zubair/Desktop/devbuddy/sample/frontend/src/components/AdminLogin.jsx",
+      "source": "/home/zubair/Desktop/devbuddy/sample/frontend/src/App.jsx",
+      "target": "/home/zubair/Desktop/devbuddy/sample/frontend/src/components/AdminLogin.jsx",
       "animated": false,
       "type": "import",
       "data": {
@@ -1670,9 +1670,9 @@
       }
     },
     {
-      "id": "imp-C:\\Users\\Zzz\\OneDrive\\Desktop\\dev tools\\cli-api-tester\\sample\\frontend\\src\\App.jsx-C:\\Users\\Zzz\\OneDrive\\Desktop\\dev tools\\cli-api-tester\\sample\\frontend\\src\\pages\\AddStudent.jsx",
-      "source": "C:\\Users\\Zzz\\OneDrive\\Desktop\\dev tools\\cli-api-tester\\sample\\frontend\\src\\App.jsx",
-      "target": "C:\\Users\\Zzz\\OneDrive\\Desktop\\dev tools\\cli-api-tester\\sample\\frontend\\src\\pages\\AddStudent.jsx",
+      "id": "imp-/home/zubair/Desktop/devbuddy/sample/frontend/src/App.jsx-/home/zubair/Desktop/devbuddy/sample/frontend/src/pages/AddStudent.jsx",
+      "source": "/home/zubair/Desktop/devbuddy/sample/frontend/src/App.jsx",
+      "target": "/home/zubair/Desktop/devbuddy/sample/frontend/src/pages/AddStudent.jsx",
       "animated": false,
       "type": "import",
       "data": {
@@ -1680,9 +1680,9 @@
       }
     },
     {
-      "id": "imp-C:\\Users\\Zzz\\OneDrive\\Desktop\\dev tools\\cli-api-tester\\sample\\frontend\\src\\App.jsx-C:\\Users\\Zzz\\OneDrive\\Desktop\\dev tools\\cli-api-tester\\sample\\frontend\\src\\pages\\Attendance.jsx",
-      "source": "C:\\Users\\Zzz\\OneDrive\\Desktop\\dev tools\\cli-api-tester\\sample\\frontend\\src\\App.jsx",
-      "target": "C:\\Users\\Zzz\\OneDrive\\Desktop\\dev tools\\cli-api-tester\\sample\\frontend\\src\\pages\\Attendance.jsx",
+      "id": "imp-/home/zubair/Desktop/devbuddy/sample/frontend/src/App.jsx-/home/zubair/Desktop/devbuddy/sample/frontend/src/pages/Attendance.jsx",
+      "source": "/home/zubair/Desktop/devbuddy/sample/frontend/src/App.jsx",
+      "target": "/home/zubair/Desktop/devbuddy/sample/frontend/src/pages/Attendance.jsx",
       "animated": false,
       "type": "import",
       "data": {
@@ -1690,9 +1690,9 @@
       }
     },
     {
-      "id": "imp-C:\\Users\\Zzz\\OneDrive\\Desktop\\dev tools\\cli-api-tester\\sample\\frontend\\src\\App.jsx-C:\\Users\\Zzz\\OneDrive\\Desktop\\dev tools\\cli-api-tester\\sample\\frontend\\src\\components\\StudentList.jsx",
-      "source": "C:\\Users\\Zzz\\OneDrive\\Desktop\\dev tools\\cli-api-tester\\sample\\frontend\\src\\App.jsx",
-      "target": "C:\\Users\\Zzz\\OneDrive\\Desktop\\dev tools\\cli-api-tester\\sample\\frontend\\src\\components\\StudentList.jsx",
+      "id": "imp-/home/zubair/Desktop/devbuddy/sample/frontend/src/App.jsx-/home/zubair/Desktop/devbuddy/sample/frontend/src/components/StudentList.jsx",
+      "source": "/home/zubair/Desktop/devbuddy/sample/frontend/src/App.jsx",
+      "target": "/home/zubair/Desktop/devbuddy/sample/frontend/src/components/StudentList.jsx",
       "animated": false,
       "type": "import",
       "data": {
@@ -1700,9 +1700,9 @@
       }
     },
     {
-      "id": "imp-C:\\Users\\Zzz\\OneDrive\\Desktop\\dev tools\\cli-api-tester\\sample\\frontend\\src\\App.jsx-C:\\Users\\Zzz\\OneDrive\\Desktop\\dev tools\\cli-api-tester\\sample\\frontend\\src\\pages\\PollSummary.jsx",
-      "source": "C:\\Users\\Zzz\\OneDrive\\Desktop\\dev tools\\cli-api-tester\\sample\\frontend\\src\\App.jsx",
-      "target": "C:\\Users\\Zzz\\OneDrive\\Desktop\\dev tools\\cli-api-tester\\sample\\frontend\\src\\pages\\PollSummary.jsx",
+      "id": "imp-/home/zubair/Desktop/devbuddy/sample/frontend/src/App.jsx-/home/zubair/Desktop/devbuddy/sample/frontend/src/pages/PollSummary.jsx",
+      "source": "/home/zubair/Desktop/devbuddy/sample/frontend/src/App.jsx",
+      "target": "/home/zubair/Desktop/devbuddy/sample/frontend/src/pages/PollSummary.jsx",
       "animated": false,
       "type": "import",
       "data": {
@@ -1710,8 +1710,8 @@
       }
     },
     {
-      "id": "imp-C:\\Users\\Zzz\\OneDrive\\Desktop\\dev tools\\cli-api-tester\\sample\\frontend\\src\\App.jsx-pkg:@mui/material/styles",
-      "source": "C:\\Users\\Zzz\\OneDrive\\Desktop\\dev tools\\cli-api-tester\\sample\\frontend\\src\\App.jsx",
+      "id": "imp-/home/zubair/Desktop/devbuddy/sample/frontend/src/App.jsx-pkg:@mui/material/styles",
+      "source": "/home/zubair/Desktop/devbuddy/sample/frontend/src/App.jsx",
       "target": "pkg:@mui/material/styles",
       "animated": false,
       "type": "import-package",
@@ -1720,8 +1720,8 @@
       }
     },
     {
-      "id": "imp-C:\\Users\\Zzz\\OneDrive\\Desktop\\dev tools\\cli-api-tester\\sample\\frontend\\src\\App.jsx-pkg:@mui/material/CssBaseline",
-      "source": "C:\\Users\\Zzz\\OneDrive\\Desktop\\dev tools\\cli-api-tester\\sample\\frontend\\src\\App.jsx",
+      "id": "imp-/home/zubair/Desktop/devbuddy/sample/frontend/src/App.jsx-pkg:@mui/material/CssBaseline",
+      "source": "/home/zubair/Desktop/devbuddy/sample/frontend/src/App.jsx",
       "target": "pkg:@mui/material/CssBaseline",
       "animated": false,
       "type": "import-package",
@@ -1730,8 +1730,8 @@
       }
     },
     {
-      "id": "imp-C:\\Users\\Zzz\\OneDrive\\Desktop\\dev tools\\cli-api-tester\\sample\\frontend\\src\\components\\AdminLogin.jsx-pkg:react",
-      "source": "C:\\Users\\Zzz\\OneDrive\\Desktop\\dev tools\\cli-api-tester\\sample\\frontend\\src\\components\\AdminLogin.jsx",
+      "id": "imp-/home/zubair/Desktop/devbuddy/sample/frontend/src/components/AdminLogin.jsx-pkg:react",
+      "source": "/home/zubair/Desktop/devbuddy/sample/frontend/src/components/AdminLogin.jsx",
       "target": "pkg:react",
       "animated": false,
       "type": "import-package",
@@ -1740,8 +1740,8 @@
       }
     },
     {
-      "id": "imp-C:\\Users\\Zzz\\OneDrive\\Desktop\\dev tools\\cli-api-tester\\sample\\frontend\\src\\components\\AdminLogin.jsx-pkg:react-router-dom",
-      "source": "C:\\Users\\Zzz\\OneDrive\\Desktop\\dev tools\\cli-api-tester\\sample\\frontend\\src\\components\\AdminLogin.jsx",
+      "id": "imp-/home/zubair/Desktop/devbuddy/sample/frontend/src/components/AdminLogin.jsx-pkg:react-router-dom",
+      "source": "/home/zubair/Desktop/devbuddy/sample/frontend/src/components/AdminLogin.jsx",
       "target": "pkg:react-router-dom",
       "animated": false,
       "type": "import-package",
@@ -1750,8 +1750,8 @@
       }
     },
     {
-      "id": "imp-C:\\Users\\Zzz\\OneDrive\\Desktop\\dev tools\\cli-api-tester\\sample\\frontend\\src\\components\\AdminLogin.jsx-pkg:@mui/material",
-      "source": "C:\\Users\\Zzz\\OneDrive\\Desktop\\dev tools\\cli-api-tester\\sample\\frontend\\src\\components\\AdminLogin.jsx",
+      "id": "imp-/home/zubair/Desktop/devbuddy/sample/frontend/src/components/AdminLogin.jsx-pkg:@mui/material",
+      "source": "/home/zubair/Desktop/devbuddy/sample/frontend/src/components/AdminLogin.jsx",
       "target": "pkg:@mui/material",
       "animated": false,
       "type": "import-package",
@@ -1760,8 +1760,8 @@
       }
     },
     {
-      "id": "imp-C:\\Users\\Zzz\\OneDrive\\Desktop\\dev tools\\cli-api-tester\\sample\\frontend\\src\\components\\AdminLogin.jsx-pkg:../assets/logo.png",
-      "source": "C:\\Users\\Zzz\\OneDrive\\Desktop\\dev tools\\cli-api-tester\\sample\\frontend\\src\\components\\AdminLogin.jsx",
+      "id": "imp-/home/zubair/Desktop/devbuddy/sample/frontend/src/components/AdminLogin.jsx-pkg:../assets/logo.png",
+      "source": "/home/zubair/Desktop/devbuddy/sample/frontend/src/components/AdminLogin.jsx",
       "target": "pkg:../assets/logo.png",
       "animated": false,
       "type": "import-package",
@@ -1770,8 +1770,8 @@
       }
     },
     {
-      "id": "imp-C:\\Users\\Zzz\\OneDrive\\Desktop\\dev tools\\cli-api-tester\\sample\\frontend\\src\\components\\Navbar.jsx-pkg:react",
-      "source": "C:\\Users\\Zzz\\OneDrive\\Desktop\\dev tools\\cli-api-tester\\sample\\frontend\\src\\components\\Navbar.jsx",
+      "id": "imp-/home/zubair/Desktop/devbuddy/sample/frontend/src/components/Navbar.jsx-pkg:react",
+      "source": "/home/zubair/Desktop/devbuddy/sample/frontend/src/components/Navbar.jsx",
       "target": "pkg:react",
       "animated": false,
       "type": "import-package",
@@ -1780,8 +1780,8 @@
       }
     },
     {
-      "id": "imp-C:\\Users\\Zzz\\OneDrive\\Desktop\\dev tools\\cli-api-tester\\sample\\frontend\\src\\components\\Navbar.jsx-pkg:@mui/material",
-      "source": "C:\\Users\\Zzz\\OneDrive\\Desktop\\dev tools\\cli-api-tester\\sample\\frontend\\src\\components\\Navbar.jsx",
+      "id": "imp-/home/zubair/Desktop/devbuddy/sample/frontend/src/components/Navbar.jsx-pkg:@mui/material",
+      "source": "/home/zubair/Desktop/devbuddy/sample/frontend/src/components/Navbar.jsx",
       "target": "pkg:@mui/material",
       "animated": false,
       "type": "import-package",
@@ -1790,8 +1790,8 @@
       }
     },
     {
-      "id": "imp-C:\\Users\\Zzz\\OneDrive\\Desktop\\dev tools\\cli-api-tester\\sample\\frontend\\src\\components\\Navbar.jsx-pkg:@mui/icons-material/Menu",
-      "source": "C:\\Users\\Zzz\\OneDrive\\Desktop\\dev tools\\cli-api-tester\\sample\\frontend\\src\\components\\Navbar.jsx",
+      "id": "imp-/home/zubair/Desktop/devbuddy/sample/frontend/src/components/Navbar.jsx-pkg:@mui/icons-material/Menu",
+      "source": "/home/zubair/Desktop/devbuddy/sample/frontend/src/components/Navbar.jsx",
       "target": "pkg:@mui/icons-material/Menu",
       "animated": false,
       "type": "import-package",
@@ -1800,8 +1800,8 @@
       }
     },
     {
-      "id": "imp-C:\\Users\\Zzz\\OneDrive\\Desktop\\dev tools\\cli-api-tester\\sample\\frontend\\src\\components\\Navbar.jsx-pkg:react-router-dom",
-      "source": "C:\\Users\\Zzz\\OneDrive\\Desktop\\dev tools\\cli-api-tester\\sample\\frontend\\src\\components\\Navbar.jsx",
+      "id": "imp-/home/zubair/Desktop/devbuddy/sample/frontend/src/components/Navbar.jsx-pkg:react-router-dom",
+      "source": "/home/zubair/Desktop/devbuddy/sample/frontend/src/components/Navbar.jsx",
       "target": "pkg:react-router-dom",
       "animated": false,
       "type": "import-package",
@@ -1810,8 +1810,8 @@
       }
     },
     {
-      "id": "imp-C:\\Users\\Zzz\\OneDrive\\Desktop\\dev tools\\cli-api-tester\\sample\\frontend\\src\\components\\Navbar.jsx-pkg:../assets/logo.png",
-      "source": "C:\\Users\\Zzz\\OneDrive\\Desktop\\dev tools\\cli-api-tester\\sample\\frontend\\src\\components\\Navbar.jsx",
+      "id": "imp-/home/zubair/Desktop/devbuddy/sample/frontend/src/components/Navbar.jsx-pkg:../assets/logo.png",
+      "source": "/home/zubair/Desktop/devbuddy/sample/frontend/src/components/Navbar.jsx",
       "target": "pkg:../assets/logo.png",
       "animated": false,
       "type": "import-package",
@@ -1820,8 +1820,8 @@
       }
     },
     {
-      "id": "imp-C:\\Users\\Zzz\\OneDrive\\Desktop\\dev tools\\cli-api-tester\\sample\\frontend\\src\\components\\StudentList.jsx-pkg:react",
-      "source": "C:\\Users\\Zzz\\OneDrive\\Desktop\\dev tools\\cli-api-tester\\sample\\frontend\\src\\components\\StudentList.jsx",
+      "id": "imp-/home/zubair/Desktop/devbuddy/sample/frontend/src/components/StudentList.jsx-pkg:react",
+      "source": "/home/zubair/Desktop/devbuddy/sample/frontend/src/components/StudentList.jsx",
       "target": "pkg:react",
       "animated": false,
       "type": "import-package",
@@ -1830,8 +1830,8 @@
       }
     },
     {
-      "id": "imp-C:\\Users\\Zzz\\OneDrive\\Desktop\\dev tools\\cli-api-tester\\sample\\frontend\\src\\components\\StudentList.jsx-pkg:axios",
-      "source": "C:\\Users\\Zzz\\OneDrive\\Desktop\\dev tools\\cli-api-tester\\sample\\frontend\\src\\components\\StudentList.jsx",
+      "id": "imp-/home/zubair/Desktop/devbuddy/sample/frontend/src/components/StudentList.jsx-pkg:axios",
+      "source": "/home/zubair/Desktop/devbuddy/sample/frontend/src/components/StudentList.jsx",
       "target": "pkg:axios",
       "animated": false,
       "type": "import-package",
@@ -1840,8 +1840,8 @@
       }
     },
     {
-      "id": "imp-C:\\Users\\Zzz\\OneDrive\\Desktop\\dev tools\\cli-api-tester\\sample\\frontend\\src\\components\\StudentList.jsx-pkg:react-router-dom",
-      "source": "C:\\Users\\Zzz\\OneDrive\\Desktop\\dev tools\\cli-api-tester\\sample\\frontend\\src\\components\\StudentList.jsx",
+      "id": "imp-/home/zubair/Desktop/devbuddy/sample/frontend/src/components/StudentList.jsx-pkg:react-router-dom",
+      "source": "/home/zubair/Desktop/devbuddy/sample/frontend/src/components/StudentList.jsx",
       "target": "pkg:react-router-dom",
       "animated": false,
       "type": "import-package",
@@ -1850,8 +1850,8 @@
       }
     },
     {
-      "id": "imp-C:\\Users\\Zzz\\OneDrive\\Desktop\\dev tools\\cli-api-tester\\sample\\frontend\\src\\components\\StudentList.jsx-pkg:@mui/material",
-      "source": "C:\\Users\\Zzz\\OneDrive\\Desktop\\dev tools\\cli-api-tester\\sample\\frontend\\src\\components\\StudentList.jsx",
+      "id": "imp-/home/zubair/Desktop/devbuddy/sample/frontend/src/components/StudentList.jsx-pkg:@mui/material",
+      "source": "/home/zubair/Desktop/devbuddy/sample/frontend/src/components/StudentList.jsx",
       "target": "pkg:@mui/material",
       "animated": false,
       "type": "import-package",
@@ -1860,9 +1860,9 @@
       }
     },
     {
-      "id": "imp-C:\\Users\\Zzz\\OneDrive\\Desktop\\dev tools\\cli-api-tester\\sample\\frontend\\src\\components\\StudentList.jsx-C:\\Users\\Zzz\\OneDrive\\Desktop\\dev tools\\cli-api-tester\\sample\\frontend\\src\\components\\Navbar.jsx",
-      "source": "C:\\Users\\Zzz\\OneDrive\\Desktop\\dev tools\\cli-api-tester\\sample\\frontend\\src\\components\\StudentList.jsx",
-      "target": "C:\\Users\\Zzz\\OneDrive\\Desktop\\dev tools\\cli-api-tester\\sample\\frontend\\src\\components\\Navbar.jsx",
+      "id": "imp-/home/zubair/Desktop/devbuddy/sample/frontend/src/components/StudentList.jsx-/home/zubair/Desktop/devbuddy/sample/frontend/src/components/Navbar.jsx",
+      "source": "/home/zubair/Desktop/devbuddy/sample/frontend/src/components/StudentList.jsx",
+      "target": "/home/zubair/Desktop/devbuddy/sample/frontend/src/components/Navbar.jsx",
       "animated": false,
       "type": "import",
       "data": {
@@ -1870,8 +1870,8 @@
       }
     },
     {
-      "id": "imp-C:\\Users\\Zzz\\OneDrive\\Desktop\\dev tools\\cli-api-tester\\sample\\frontend\\src\\main.jsx-pkg:react",
-      "source": "C:\\Users\\Zzz\\OneDrive\\Desktop\\dev tools\\cli-api-tester\\sample\\frontend\\src\\main.jsx",
+      "id": "imp-/home/zubair/Desktop/devbuddy/sample/frontend/src/main.jsx-pkg:react",
+      "source": "/home/zubair/Desktop/devbuddy/sample/frontend/src/main.jsx",
       "target": "pkg:react",
       "animated": false,
       "type": "import-package",
@@ -1880,8 +1880,8 @@
       }
     },
     {
-      "id": "imp-C:\\Users\\Zzz\\OneDrive\\Desktop\\dev tools\\cli-api-tester\\sample\\frontend\\src\\main.jsx-pkg:react-dom/client",
-      "source": "C:\\Users\\Zzz\\OneDrive\\Desktop\\dev tools\\cli-api-tester\\sample\\frontend\\src\\main.jsx",
+      "id": "imp-/home/zubair/Desktop/devbuddy/sample/frontend/src/main.jsx-pkg:react-dom/client",
+      "source": "/home/zubair/Desktop/devbuddy/sample/frontend/src/main.jsx",
       "target": "pkg:react-dom/client",
       "animated": false,
       "type": "import-package",
@@ -1890,9 +1890,9 @@
       }
     },
     {
-      "id": "imp-C:\\Users\\Zzz\\OneDrive\\Desktop\\dev tools\\cli-api-tester\\sample\\frontend\\src\\main.jsx-C:\\Users\\Zzz\\OneDrive\\Desktop\\dev tools\\cli-api-tester\\sample\\frontend\\src\\App.jsx",
-      "source": "C:\\Users\\Zzz\\OneDrive\\Desktop\\dev tools\\cli-api-tester\\sample\\frontend\\src\\main.jsx",
-      "target": "C:\\Users\\Zzz\\OneDrive\\Desktop\\dev tools\\cli-api-tester\\sample\\frontend\\src\\App.jsx",
+      "id": "imp-/home/zubair/Desktop/devbuddy/sample/frontend/src/main.jsx-/home/zubair/Desktop/devbuddy/sample/frontend/src/App.jsx",
+      "source": "/home/zubair/Desktop/devbuddy/sample/frontend/src/main.jsx",
+      "target": "/home/zubair/Desktop/devbuddy/sample/frontend/src/App.jsx",
       "animated": false,
       "type": "import",
       "data": {
@@ -1900,8 +1900,8 @@
       }
     },
     {
-      "id": "imp-C:\\Users\\Zzz\\OneDrive\\Desktop\\dev tools\\cli-api-tester\\sample\\frontend\\src\\main.jsx-pkg:react-router-dom",
-      "source": "C:\\Users\\Zzz\\OneDrive\\Desktop\\dev tools\\cli-api-tester\\sample\\frontend\\src\\main.jsx",
+      "id": "imp-/home/zubair/Desktop/devbuddy/sample/frontend/src/main.jsx-pkg:react-router-dom",
+      "source": "/home/zubair/Desktop/devbuddy/sample/frontend/src/main.jsx",
       "target": "pkg:react-router-dom",
       "animated": false,
       "type": "import-package",
@@ -1910,8 +1910,8 @@
       }
     },
     {
-      "id": "imp-C:\\Users\\Zzz\\OneDrive\\Desktop\\dev tools\\cli-api-tester\\sample\\frontend\\src\\pages\\AddStudent.jsx-pkg:react",
-      "source": "C:\\Users\\Zzz\\OneDrive\\Desktop\\dev tools\\cli-api-tester\\sample\\frontend\\src\\pages\\AddStudent.jsx",
+      "id": "imp-/home/zubair/Desktop/devbuddy/sample/frontend/src/pages/AddStudent.jsx-pkg:react",
+      "source": "/home/zubair/Desktop/devbuddy/sample/frontend/src/pages/AddStudent.jsx",
       "target": "pkg:react",
       "animated": false,
       "type": "import-package",
@@ -1920,8 +1920,8 @@
       }
     },
     {
-      "id": "imp-C:\\Users\\Zzz\\OneDrive\\Desktop\\dev tools\\cli-api-tester\\sample\\frontend\\src\\pages\\AddStudent.jsx-pkg:axios",
-      "source": "C:\\Users\\Zzz\\OneDrive\\Desktop\\dev tools\\cli-api-tester\\sample\\frontend\\src\\pages\\AddStudent.jsx",
+      "id": "imp-/home/zubair/Desktop/devbuddy/sample/frontend/src/pages/AddStudent.jsx-pkg:axios",
+      "source": "/home/zubair/Desktop/devbuddy/sample/frontend/src/pages/AddStudent.jsx",
       "target": "pkg:axios",
       "animated": false,
       "type": "import-package",
@@ -1930,8 +1930,8 @@
       }
     },
     {
-      "id": "imp-C:\\Users\\Zzz\\OneDrive\\Desktop\\dev tools\\cli-api-tester\\sample\\frontend\\src\\pages\\AddStudent.jsx-pkg:@mui/material",
-      "source": "C:\\Users\\Zzz\\OneDrive\\Desktop\\dev tools\\cli-api-tester\\sample\\frontend\\src\\pages\\AddStudent.jsx",
+      "id": "imp-/home/zubair/Desktop/devbuddy/sample/frontend/src/pages/AddStudent.jsx-pkg:@mui/material",
+      "source": "/home/zubair/Desktop/devbuddy/sample/frontend/src/pages/AddStudent.jsx",
       "target": "pkg:@mui/material",
       "animated": false,
       "type": "import-package",
@@ -1940,9 +1940,9 @@
       }
     },
     {
-      "id": "imp-C:\\Users\\Zzz\\OneDrive\\Desktop\\dev tools\\cli-api-tester\\sample\\frontend\\src\\pages\\AddStudent.jsx-C:\\Users\\Zzz\\OneDrive\\Desktop\\dev tools\\cli-api-tester\\sample\\frontend\\src\\components\\Navbar.jsx",
-      "source": "C:\\Users\\Zzz\\OneDrive\\Desktop\\dev tools\\cli-api-tester\\sample\\frontend\\src\\pages\\AddStudent.jsx",
-      "target": "C:\\Users\\Zzz\\OneDrive\\Desktop\\dev tools\\cli-api-tester\\sample\\frontend\\src\\components\\Navbar.jsx",
+      "id": "imp-/home/zubair/Desktop/devbuddy/sample/frontend/src/pages/AddStudent.jsx-/home/zubair/Desktop/devbuddy/sample/frontend/src/components/Navbar.jsx",
+      "source": "/home/zubair/Desktop/devbuddy/sample/frontend/src/pages/AddStudent.jsx",
+      "target": "/home/zubair/Desktop/devbuddy/sample/frontend/src/components/Navbar.jsx",
       "animated": false,
       "type": "import",
       "data": {
@@ -1950,8 +1950,8 @@
       }
     },
     {
-      "id": "imp-C:\\Users\\Zzz\\OneDrive\\Desktop\\dev tools\\cli-api-tester\\sample\\frontend\\src\\pages\\Attendance.jsx-pkg:react",
-      "source": "C:\\Users\\Zzz\\OneDrive\\Desktop\\dev tools\\cli-api-tester\\sample\\frontend\\src\\pages\\Attendance.jsx",
+      "id": "imp-/home/zubair/Desktop/devbuddy/sample/frontend/src/pages/Attendance.jsx-pkg:react",
+      "source": "/home/zubair/Desktop/devbuddy/sample/frontend/src/pages/Attendance.jsx",
       "target": "pkg:react",
       "animated": false,
       "type": "import-package",
@@ -1960,8 +1960,8 @@
       }
     },
     {
-      "id": "imp-C:\\Users\\Zzz\\OneDrive\\Desktop\\dev tools\\cli-api-tester\\sample\\frontend\\src\\pages\\Attendance.jsx-pkg:axios",
-      "source": "C:\\Users\\Zzz\\OneDrive\\Desktop\\dev tools\\cli-api-tester\\sample\\frontend\\src\\pages\\Attendance.jsx",
+      "id": "imp-/home/zubair/Desktop/devbuddy/sample/frontend/src/pages/Attendance.jsx-pkg:axios",
+      "source": "/home/zubair/Desktop/devbuddy/sample/frontend/src/pages/Attendance.jsx",
       "target": "pkg:axios",
       "animated": false,
       "type": "import-package",
@@ -1970,8 +1970,8 @@
       }
     },
     {
-      "id": "imp-C:\\Users\\Zzz\\OneDrive\\Desktop\\dev tools\\cli-api-tester\\sample\\frontend\\src\\pages\\Attendance.jsx-pkg:react-router-dom",
-      "source": "C:\\Users\\Zzz\\OneDrive\\Desktop\\dev tools\\cli-api-tester\\sample\\frontend\\src\\pages\\Attendance.jsx",
+      "id": "imp-/home/zubair/Desktop/devbuddy/sample/frontend/src/pages/Attendance.jsx-pkg:react-router-dom",
+      "source": "/home/zubair/Desktop/devbuddy/sample/frontend/src/pages/Attendance.jsx",
       "target": "pkg:react-router-dom",
       "animated": false,
       "type": "import-package",
@@ -1980,8 +1980,8 @@
       }
     },
     {
-      "id": "imp-C:\\Users\\Zzz\\OneDrive\\Desktop\\dev tools\\cli-api-tester\\sample\\frontend\\src\\pages\\Attendance.jsx-pkg:@mui/material",
-      "source": "C:\\Users\\Zzz\\OneDrive\\Desktop\\dev tools\\cli-api-tester\\sample\\frontend\\src\\pages\\Attendance.jsx",
+      "id": "imp-/home/zubair/Desktop/devbuddy/sample/frontend/src/pages/Attendance.jsx-pkg:@mui/material",
+      "source": "/home/zubair/Desktop/devbuddy/sample/frontend/src/pages/Attendance.jsx",
       "target": "pkg:@mui/material",
       "animated": false,
       "type": "import-package",
@@ -1990,9 +1990,9 @@
       }
     },
     {
-      "id": "imp-C:\\Users\\Zzz\\OneDrive\\Desktop\\dev tools\\cli-api-tester\\sample\\frontend\\src\\pages\\Attendance.jsx-C:\\Users\\Zzz\\OneDrive\\Desktop\\dev tools\\cli-api-tester\\sample\\frontend\\src\\components\\Navbar.jsx",
-      "source": "C:\\Users\\Zzz\\OneDrive\\Desktop\\dev tools\\cli-api-tester\\sample\\frontend\\src\\pages\\Attendance.jsx",
-      "target": "C:\\Users\\Zzz\\OneDrive\\Desktop\\dev tools\\cli-api-tester\\sample\\frontend\\src\\components\\Navbar.jsx",
+      "id": "imp-/home/zubair/Desktop/devbuddy/sample/frontend/src/pages/Attendance.jsx-/home/zubair/Desktop/devbuddy/sample/frontend/src/components/Navbar.jsx",
+      "source": "/home/zubair/Desktop/devbuddy/sample/frontend/src/pages/Attendance.jsx",
+      "target": "/home/zubair/Desktop/devbuddy/sample/frontend/src/components/Navbar.jsx",
       "animated": false,
       "type": "import",
       "data": {
@@ -2000,8 +2000,8 @@
       }
     },
     {
-      "id": "imp-C:\\Users\\Zzz\\OneDrive\\Desktop\\dev tools\\cli-api-tester\\sample\\frontend\\src\\pages\\PollSummary.jsx-pkg:react",
-      "source": "C:\\Users\\Zzz\\OneDrive\\Desktop\\dev tools\\cli-api-tester\\sample\\frontend\\src\\pages\\PollSummary.jsx",
+      "id": "imp-/home/zubair/Desktop/devbuddy/sample/frontend/src/pages/PollSummary.jsx-pkg:react",
+      "source": "/home/zubair/Desktop/devbuddy/sample/frontend/src/pages/PollSummary.jsx",
       "target": "pkg:react",
       "animated": false,
       "type": "import-package",
@@ -2010,8 +2010,8 @@
       }
     },
     {
-      "id": "imp-C:\\Users\\Zzz\\OneDrive\\Desktop\\dev tools\\cli-api-tester\\sample\\frontend\\src\\pages\\PollSummary.jsx-pkg:@mui/material",
-      "source": "C:\\Users\\Zzz\\OneDrive\\Desktop\\dev tools\\cli-api-tester\\sample\\frontend\\src\\pages\\PollSummary.jsx",
+      "id": "imp-/home/zubair/Desktop/devbuddy/sample/frontend/src/pages/PollSummary.jsx-pkg:@mui/material",
+      "source": "/home/zubair/Desktop/devbuddy/sample/frontend/src/pages/PollSummary.jsx",
       "target": "pkg:@mui/material",
       "animated": false,
       "type": "import-package",
@@ -2020,8 +2020,8 @@
       }
     },
     {
-      "id": "imp-C:\\Users\\Zzz\\OneDrive\\Desktop\\dev tools\\cli-api-tester\\sample\\frontend\\src\\pages\\PollSummary.jsx-pkg:recharts",
-      "source": "C:\\Users\\Zzz\\OneDrive\\Desktop\\dev tools\\cli-api-tester\\sample\\frontend\\src\\pages\\PollSummary.jsx",
+      "id": "imp-/home/zubair/Desktop/devbuddy/sample/frontend/src/pages/PollSummary.jsx-pkg:recharts",
+      "source": "/home/zubair/Desktop/devbuddy/sample/frontend/src/pages/PollSummary.jsx",
       "target": "pkg:recharts",
       "animated": false,
       "type": "import-package",
@@ -2030,9 +2030,9 @@
       }
     },
     {
-      "id": "imp-C:\\Users\\Zzz\\OneDrive\\Desktop\\dev tools\\cli-api-tester\\sample\\frontend\\src\\pages\\PollSummary.jsx-C:\\Users\\Zzz\\OneDrive\\Desktop\\dev tools\\cli-api-tester\\sample\\frontend\\src\\components\\Navbar.jsx",
-      "source": "C:\\Users\\Zzz\\OneDrive\\Desktop\\dev tools\\cli-api-tester\\sample\\frontend\\src\\pages\\PollSummary.jsx",
-      "target": "C:\\Users\\Zzz\\OneDrive\\Desktop\\dev tools\\cli-api-tester\\sample\\frontend\\src\\components\\Navbar.jsx",
+      "id": "imp-/home/zubair/Desktop/devbuddy/sample/frontend/src/pages/PollSummary.jsx-/home/zubair/Desktop/devbuddy/sample/frontend/src/components/Navbar.jsx",
+      "source": "/home/zubair/Desktop/devbuddy/sample/frontend/src/pages/PollSummary.jsx",
+      "target": "/home/zubair/Desktop/devbuddy/sample/frontend/src/components/Navbar.jsx",
       "animated": false,
       "type": "import",
       "data": {
@@ -2040,9 +2040,9 @@
       }
     },
     {
-      "id": "uses-C:\\Users\\Zzz\\OneDrive\\Desktop\\dev tools\\cli-api-tester\\sample\\frontend\\src\\App.jsx-C:\\Users\\Zzz\\OneDrive\\Desktop\\dev tools\\cli-api-tester\\sample\\frontend\\src\\components\\AdminLogin.jsx-AdminLogin",
-      "source": "C:\\Users\\Zzz\\OneDrive\\Desktop\\dev tools\\cli-api-tester\\sample\\frontend\\src\\App.jsx",
-      "target": "C:\\Users\\Zzz\\OneDrive\\Desktop\\dev tools\\cli-api-tester\\sample\\frontend\\src\\components\\AdminLogin.jsx",
+      "id": "uses-/home/zubair/Desktop/devbuddy/sample/frontend/src/App.jsx-/home/zubair/Desktop/devbuddy/sample/frontend/src/components/AdminLogin.jsx-AdminLogin",
+      "source": "/home/zubair/Desktop/devbuddy/sample/frontend/src/App.jsx",
+      "target": "/home/zubair/Desktop/devbuddy/sample/frontend/src/components/AdminLogin.jsx",
       "animated": true,
       "type": "uses-component",
       "data": {
@@ -2050,9 +2050,9 @@
       }
     },
     {
-      "id": "uses-C:\\Users\\Zzz\\OneDrive\\Desktop\\dev tools\\cli-api-tester\\sample\\frontend\\src\\App.jsx-C:\\Users\\Zzz\\OneDrive\\Desktop\\dev tools\\cli-api-tester\\sample\\frontend\\src\\pages\\AddStudent.jsx-AddStudent",
-      "source": "C:\\Users\\Zzz\\OneDrive\\Desktop\\dev tools\\cli-api-tester\\sample\\frontend\\src\\App.jsx",
-      "target": "C:\\Users\\Zzz\\OneDrive\\Desktop\\dev tools\\cli-api-tester\\sample\\frontend\\src\\pages\\AddStudent.jsx",
+      "id": "uses-/home/zubair/Desktop/devbuddy/sample/frontend/src/App.jsx-/home/zubair/Desktop/devbuddy/sample/frontend/src/pages/AddStudent.jsx-AddStudent",
+      "source": "/home/zubair/Desktop/devbuddy/sample/frontend/src/App.jsx",
+      "target": "/home/zubair/Desktop/devbuddy/sample/frontend/src/pages/AddStudent.jsx",
       "animated": true,
       "type": "uses-component",
       "data": {
@@ -2060,9 +2060,9 @@
       }
     },
     {
-      "id": "uses-C:\\Users\\Zzz\\OneDrive\\Desktop\\dev tools\\cli-api-tester\\sample\\frontend\\src\\App.jsx-C:\\Users\\Zzz\\OneDrive\\Desktop\\dev tools\\cli-api-tester\\sample\\frontend\\src\\pages\\Attendance.jsx-Attendance",
-      "source": "C:\\Users\\Zzz\\OneDrive\\Desktop\\dev tools\\cli-api-tester\\sample\\frontend\\src\\App.jsx",
-      "target": "C:\\Users\\Zzz\\OneDrive\\Desktop\\dev tools\\cli-api-tester\\sample\\frontend\\src\\pages\\Attendance.jsx",
+      "id": "uses-/home/zubair/Desktop/devbuddy/sample/frontend/src/App.jsx-/home/zubair/Desktop/devbuddy/sample/frontend/src/pages/Attendance.jsx-Attendance",
+      "source": "/home/zubair/Desktop/devbuddy/sample/frontend/src/App.jsx",
+      "target": "/home/zubair/Desktop/devbuddy/sample/frontend/src/pages/Attendance.jsx",
       "animated": true,
       "type": "uses-component",
       "data": {
@@ -2070,9 +2070,9 @@
       }
     },
     {
-      "id": "uses-C:\\Users\\Zzz\\OneDrive\\Desktop\\dev tools\\cli-api-tester\\sample\\frontend\\src\\App.jsx-C:\\Users\\Zzz\\OneDrive\\Desktop\\dev tools\\cli-api-tester\\sample\\frontend\\src\\components\\StudentList.jsx-StudentList",
-      "source": "C:\\Users\\Zzz\\OneDrive\\Desktop\\dev tools\\cli-api-tester\\sample\\frontend\\src\\App.jsx",
-      "target": "C:\\Users\\Zzz\\OneDrive\\Desktop\\dev tools\\cli-api-tester\\sample\\frontend\\src\\components\\StudentList.jsx",
+      "id": "uses-/home/zubair/Desktop/devbuddy/sample/frontend/src/App.jsx-/home/zubair/Desktop/devbuddy/sample/frontend/src/components/StudentList.jsx-StudentList",
+      "source": "/home/zubair/Desktop/devbuddy/sample/frontend/src/App.jsx",
+      "target": "/home/zubair/Desktop/devbuddy/sample/frontend/src/components/StudentList.jsx",
       "animated": true,
       "type": "uses-component",
       "data": {
@@ -2080,9 +2080,9 @@
       }
     },
     {
-      "id": "uses-C:\\Users\\Zzz\\OneDrive\\Desktop\\dev tools\\cli-api-tester\\sample\\frontend\\src\\App.jsx-C:\\Users\\Zzz\\OneDrive\\Desktop\\dev tools\\cli-api-tester\\sample\\frontend\\src\\pages\\PollSummary.jsx-PollSummary",
-      "source": "C:\\Users\\Zzz\\OneDrive\\Desktop\\dev tools\\cli-api-tester\\sample\\frontend\\src\\App.jsx",
-      "target": "C:\\Users\\Zzz\\OneDrive\\Desktop\\dev tools\\cli-api-tester\\sample\\frontend\\src\\pages\\PollSummary.jsx",
+      "id": "uses-/home/zubair/Desktop/devbuddy/sample/frontend/src/App.jsx-/home/zubair/Desktop/devbuddy/sample/frontend/src/pages/PollSummary.jsx-PollSummary",
+      "source": "/home/zubair/Desktop/devbuddy/sample/frontend/src/App.jsx",
+      "target": "/home/zubair/Desktop/devbuddy/sample/frontend/src/pages/PollSummary.jsx",
       "animated": true,
       "type": "uses-component",
       "data": {
@@ -2090,9 +2090,9 @@
       }
     },
     {
-      "id": "uses-C:\\Users\\Zzz\\OneDrive\\Desktop\\dev tools\\cli-api-tester\\sample\\frontend\\src\\components\\StudentList.jsx-C:\\Users\\Zzz\\OneDrive\\Desktop\\dev tools\\cli-api-tester\\sample\\frontend\\src\\components\\Navbar.jsx-Navbar",
-      "source": "C:\\Users\\Zzz\\OneDrive\\Desktop\\dev tools\\cli-api-tester\\sample\\frontend\\src\\components\\StudentList.jsx",
-      "target": "C:\\Users\\Zzz\\OneDrive\\Desktop\\dev tools\\cli-api-tester\\sample\\frontend\\src\\components\\Navbar.jsx",
+      "id": "uses-/home/zubair/Desktop/devbuddy/sample/frontend/src/components/StudentList.jsx-/home/zubair/Desktop/devbuddy/sample/frontend/src/components/Navbar.jsx-Navbar",
+      "source": "/home/zubair/Desktop/devbuddy/sample/frontend/src/components/StudentList.jsx",
+      "target": "/home/zubair/Desktop/devbuddy/sample/frontend/src/components/Navbar.jsx",
       "animated": true,
       "type": "uses-component",
       "data": {
@@ -2100,9 +2100,9 @@
       }
     },
     {
-      "id": "uses-C:\\Users\\Zzz\\OneDrive\\Desktop\\dev tools\\cli-api-tester\\sample\\frontend\\src\\main.jsx-C:\\Users\\Zzz\\OneDrive\\Desktop\\dev tools\\cli-api-tester\\sample\\frontend\\src\\App.jsx-App",
-      "source": "C:\\Users\\Zzz\\OneDrive\\Desktop\\dev tools\\cli-api-tester\\sample\\frontend\\src\\main.jsx",
-      "target": "C:\\Users\\Zzz\\OneDrive\\Desktop\\dev tools\\cli-api-tester\\sample\\frontend\\src\\App.jsx",
+      "id": "uses-/home/zubair/Desktop/devbuddy/sample/frontend/src/main.jsx-/home/zubair/Desktop/devbuddy/sample/frontend/src/App.jsx-App",
+      "source": "/home/zubair/Desktop/devbuddy/sample/frontend/src/main.jsx",
+      "target": "/home/zubair/Desktop/devbuddy/sample/frontend/src/App.jsx",
       "animated": true,
       "type": "uses-component",
       "data": {
@@ -2110,9 +2110,9 @@
       }
     },
     {
-      "id": "uses-C:\\Users\\Zzz\\OneDrive\\Desktop\\dev tools\\cli-api-tester\\sample\\frontend\\src\\pages\\AddStudent.jsx-C:\\Users\\Zzz\\OneDrive\\Desktop\\dev tools\\cli-api-tester\\sample\\frontend\\src\\components\\Navbar.jsx-Navbar",
-      "source": "C:\\Users\\Zzz\\OneDrive\\Desktop\\dev tools\\cli-api-tester\\sample\\frontend\\src\\pages\\AddStudent.jsx",
-      "target": "C:\\Users\\Zzz\\OneDrive\\Desktop\\dev tools\\cli-api-tester\\sample\\frontend\\src\\components\\Navbar.jsx",
+      "id": "uses-/home/zubair/Desktop/devbuddy/sample/frontend/src/pages/AddStudent.jsx-/home/zubair/Desktop/devbuddy/sample/frontend/src/components/Navbar.jsx-Navbar",
+      "source": "/home/zubair/Desktop/devbuddy/sample/frontend/src/pages/AddStudent.jsx",
+      "target": "/home/zubair/Desktop/devbuddy/sample/frontend/src/components/Navbar.jsx",
       "animated": true,
       "type": "uses-component",
       "data": {
@@ -2120,9 +2120,9 @@
       }
     },
     {
-      "id": "uses-C:\\Users\\Zzz\\OneDrive\\Desktop\\dev tools\\cli-api-tester\\sample\\frontend\\src\\pages\\Attendance.jsx-C:\\Users\\Zzz\\OneDrive\\Desktop\\dev tools\\cli-api-tester\\sample\\frontend\\src\\components\\Navbar.jsx-Navbar",
-      "source": "C:\\Users\\Zzz\\OneDrive\\Desktop\\dev tools\\cli-api-tester\\sample\\frontend\\src\\pages\\Attendance.jsx",
-      "target": "C:\\Users\\Zzz\\OneDrive\\Desktop\\dev tools\\cli-api-tester\\sample\\frontend\\src\\components\\Navbar.jsx",
+      "id": "uses-/home/zubair/Desktop/devbuddy/sample/frontend/src/pages/Attendance.jsx-/home/zubair/Desktop/devbuddy/sample/frontend/src/components/Navbar.jsx-Navbar",
+      "source": "/home/zubair/Desktop/devbuddy/sample/frontend/src/pages/Attendance.jsx",
+      "target": "/home/zubair/Desktop/devbuddy/sample/frontend/src/components/Navbar.jsx",
       "animated": true,
       "type": "uses-component",
       "data": {
@@ -2130,9 +2130,9 @@
       }
     },
     {
-      "id": "uses-C:\\Users\\Zzz\\OneDrive\\Desktop\\dev tools\\cli-api-tester\\sample\\frontend\\src\\pages\\PollSummary.jsx-C:\\Users\\Zzz\\OneDrive\\Desktop\\dev tools\\cli-api-tester\\sample\\frontend\\src\\components\\Navbar.jsx-Navbar",
-      "source": "C:\\Users\\Zzz\\OneDrive\\Desktop\\dev tools\\cli-api-tester\\sample\\frontend\\src\\pages\\PollSummary.jsx",
-      "target": "C:\\Users\\Zzz\\OneDrive\\Desktop\\dev tools\\cli-api-tester\\sample\\frontend\\src\\components\\Navbar.jsx",
+      "id": "uses-/home/zubair/Desktop/devbuddy/sample/frontend/src/pages/PollSummary.jsx-/home/zubair/Desktop/devbuddy/sample/frontend/src/components/Navbar.jsx-Navbar",
+      "source": "/home/zubair/Desktop/devbuddy/sample/frontend/src/pages/PollSummary.jsx",
+      "target": "/home/zubair/Desktop/devbuddy/sample/frontend/src/components/Navbar.jsx",
       "animated": true,
       "type": "uses-component",
       "data": {

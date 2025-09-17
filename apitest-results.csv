@@ -1,3 +1,5 @@
 METHOD,PATH,STATUS,TIME,ERROR
-post,/profile,200,,
-get,/profile,200,,
+post,/orders/:orderId,200,,
+post,/orders/:orderId,200,,
+get,/orders/:orderId,200,,
+get,/orders/:orderId,200,,

@@ -1,12 +1,17 @@
 {
-  "endpoint": "/profile",
+  "endpoint": "/orders/12345",
   "methods": [
     "post"
   ],
-  "file": "C:\\Users\\Zzz\\OneDrive\\Desktop\\dev tools\\cli-api-tester\\sample\\index.js",
-  "instruction": "test my profile api",
+  "file": "/home/zubair/Desktop/devbuddy/sample/index.js",
+  "instruction": "test my /orders/:orderId api",
   "baseUrl": null,
-  "body": "{\n  \"userId\": \"12345\",\n  \"token\": \"my-secret-token-987\"\n}",
-  "params": {},
-  "query": {}
+  "body": "{\n  \"product\": \"Laptop\",\n  \"qty\": 1\n}",
+  "params": {
+    "orderId": "12345"
+  },
+  "query": {},
+  "headers": {
+    "Authorization": "Bearer my-secret-token-987"
+  }
 }

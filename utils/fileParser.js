@@ -1,26 +1,15 @@
-// utils/fileparser.js
+// utils/fileParser.js
 import fs from "fs";
 import * as acorn from "acorn";
 
-/**
- * Extract routes from a single JS file.
- * Returns array of { method, path }
- */
 export function extractRoutes(filePath) {
   try {
     const code = fs.readFileSync(filePath, "utf-8");
     let ast;
-
     try {
       ast = acorn.parse(code, { ecmaVersion: "latest", sourceType: "module" });
-    } catch (err) {
-      // fallback for CommonJS
-      try {
-        ast = acorn.parse(code, { ecmaVersion: "latest", sourceType: "script" });
-      } catch (err2) {
-        console.warn(`⚠️ Skipping ${filePath} (parse error):`, err2.message);
-        return [];
-      }
+    } catch {
+      ast = acorn.parse(code, { ecmaVersion: "latest", sourceType: "script" });
     }
 
     const routes = [];
@@ -28,81 +17,142 @@ export function extractRoutes(filePath) {
     walkAst(ast, (node) => {
       if (
         node.type === "CallExpression" &&
-        node.callee &&
-        node.callee.type === "MemberExpression" &&
-        node.callee.object &&
-        node.callee.object.name === "app" &&
-        node.callee.property &&
-        node.callee.property.type === "Identifier"
+        node.callee?.type === "MemberExpression" &&
+        node.callee.object?.name === "app"
       ) {
-        const method = node.callee.property.name.toLowerCase();
-        if (["get", "post", "put", "delete", "patch"].includes(method)) {
-          const firstArg = node.arguments?.[0];
-          let routePath = null;
+        const method = node.callee.property?.name?.toLowerCase();
+        if (!["get", "post", "put", "delete", "patch"].includes(method)) return;
 
-          // Literal like "/profile"
-          if (firstArg?.type === "Literal" && typeof firstArg.value === "string") {
-            routePath = firstArg.value;
-          }
-          // Template literal without expressions
-          else if (
-            firstArg?.type === "TemplateLiteral" &&
-            firstArg.expressions.length === 0
-          ) {
-            routePath = firstArg.quasis.map((q) => q.value.cooked).join("");
-          }
+        const pathArg = node.arguments?.[0];
+        const handler = node.arguments?.[node.arguments.length - 1];
+        let routePath = null;
 
-          // If we got a route path, normalize it
-          if (routePath) {
-            if (!routePath.startsWith("/")) routePath = "/" + routePath;
-            routes.push({ method, path: routePath });
-          }
+        if (pathArg?.type === "Literal") routePath = pathArg.value;
+        if (
+          pathArg?.type === "TemplateLiteral" &&
+          pathArg.expressions.length === 0
+        ) {
+          routePath = pathArg.quasis.map((q) => q.value.cooked).join("");
         }
+        if (!routePath) return;
+        if (!routePath.startsWith("/")) routePath = "/" + routePath;
+
+        const required = { params: [], query: [], body: [], headers: [] };
+
+        if (handler) {
+          walkAst(handler, (inner) => {
+            // --- Direct usage: req.body.product ---
+            if (
+              inner.type === "MemberExpression" &&
+              inner.object?.type === "MemberExpression" &&
+              inner.object.object?.name === "req"
+            ) {
+              const target = inner.object.property?.name;
+              const key =
+                inner.property?.name || inner.property?.value || null;
+              if (target && key && required[target]) {
+                required[target].push(key);
+                console.log(`📌 Direct usage detected: req.${target}.${key}`);
+              }
+            }
+
+            // --- Destructuring: const { product, qty } = req.body; ---
+            if (
+              inner.type === "VariableDeclarator" &&
+              inner.id.type === "ObjectPattern"
+            ) {
+              let target = null;
+
+              // Case 1: const { x } = req.body
+              if (
+                inner.init?.type === "MemberExpression" &&
+                inner.init.object?.name === "req"
+              ) {
+                target = inner.init.property?.name;
+              }
+
+              // Case 2: const { x } = req.body || {}
+              if (
+                inner.init?.type === "LogicalExpression" &&
+                inner.init.left?.type === "MemberExpression" &&
+                inner.init.left.object?.name === "req"
+              ) {
+                target = inner.init.left.property?.name;
+              }
+
+              // Case 3: const { x } = req.body ?? {}
+              if (
+                inner.init?.type === "LogicalExpression" &&
+                inner.init.operator === "??" &&
+                inner.init.left?.type === "MemberExpression" &&
+                inner.init.left.object?.name === "req"
+              ) {
+                target = inner.init.left.property?.name;
+              }
+
+              if (target && required[target]) {
+                inner.id.properties.forEach((p) => {
+                  const field = p.key?.name || p.key?.value;
+                  if (field) {
+                    required[target].push(field);
+                    console.log(
+                      `📌 Destructured from req.${target}: ${field}`
+                    );
+                  }
+                });
+              }
+            }
+          });
+        }
+
+        // Dedup
+        for (const k of Object.keys(required)) {
+          required[k] = [...new Set(required[k])];
+        }
+
+        console.log(
+          `✅ Route parsed: ${method.toUpperCase()} ${routePath} →`,
+          required
+        );
+        routes.push({ method, path: routePath, required });
       }
     });
 
-    // Regex fallback if AST fails
-    if (routes.length === 0) {
-      const regex = /\bapp\.(get|post|put|delete|patch)\s*\(\s*['"`]([^'"`]+)['"`]/g;
-      let m;
-      while ((m = regex.exec(code)) !== null) {
-        let pathStr = m[2];
-        if (!pathStr.startsWith("/")) pathStr = "/" + pathStr;
-        routes.push({ method: m[1], path: pathStr });
-      }
-    }
-
-    // Deduplicate routes
-    const seen = new Set();
-    const uniqueRoutes = [];
-    for (const r of routes) {
-      const key = `${r.method}:${r.path}`;
-      if (!seen.has(key)) {
-        seen.add(key);
-        uniqueRoutes.push(r);
-      }
-    }
-
-    return uniqueRoutes;
+    return dedupeRoutes(routes, code);
   } catch (err) {
-    console.error("❌ extractRoutes error in", filePath, err.message);
+    console.error("❌ extractRoutes error:", err.message);
     return [];
   }
 }
 
-// Recursive AST walker
-function walkAst(node, callback) {
-  if (!node || typeof node.type !== "string") return;
-  callback(node);
-  for (const key in node) {
-    if (!Object.prototype.hasOwnProperty.call(node, key)) continue;
-    const child = node[key];
-    if (Array.isArray(child)) {
-      for (const c of child) {
-        if (c && typeof c.type === "string") walkAst(c, callback);
-      }
-    } else if (child && typeof child.type === "string") {
-      walkAst(child, callback);
+function dedupeRoutes(routes, code) {
+  if (routes.length === 0) {
+    const regex =
+      /\bapp\.(get|post|put|delete|patch)\s*\(\s*['"`]([^'"`]+)['"`]/g;
+    let m;
+    while ((m = regex.exec(code)) !== null) {
+      routes.push({
+        method: m[1],
+        path: m[2].startsWith("/") ? m[2] : "/" + m[2],
+        required: { params: [], query: [], body: [], headers: [] },
+      });
     }
+  }
+  const seen = new Set();
+  return routes.filter((r) => {
+    const key = `${r.method}:${r.path}`;
+    if (seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
+}
+
+function walkAst(node, cb) {
+  if (!node || typeof node.type !== "string") return;
+  cb(node);
+  for (const key in node) {
+    const child = node[key];
+    if (Array.isArray(child)) child.forEach((c) => walkAst(c, cb));
+    else if (child && typeof child.type === "string") walkAst(child, cb);
   }
 }

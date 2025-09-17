@@ -80,10 +80,23 @@ async function loadPrefill() {
     }
   } catch (e) { console.warn('failed to build prefill url', e); }
 
-  if (pref && pref.file) {
+    if (pref && pref.file) {
     currentCodeFile = pref.file;
     console.info('prefill: currentCodeFile =', currentCodeFile);
   }
+
+  // --- NEW block here ---
+  if (pref && pref.headers && $('headersInput')) {
+    const hdrLines = Object.entries(pref.headers)
+      .map(([k, v]) => `${k}: ${v}`)
+      .join('\n');
+    $('headersInput').value = hdrLines;
+  }
+
+  if (pref && pref.headers && pref.headers.Authorization && $('authInput')) {
+    $('authInput').value = pref.headers.Authorization;
+  }
+
 
   if (pref && pref.body) {
     try {

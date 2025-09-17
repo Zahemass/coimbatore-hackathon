@@ -19,4 +19,4 @@ node cli.js autotest sample/index.js
 
 bash
 LAUNCH_UI=true node cli.js flowchart sample/frontend
- node cli.js "test the /users/:id api in index.js file"
+node cli.js "test the /users/:id api in index.js file"

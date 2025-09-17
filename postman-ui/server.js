@@ -6,7 +6,7 @@ import open from "open";
 import axios from "axios";
 import { fileURLToPath } from "url";
 import { generateTestCases, loadTestCasesFromFile } from "../tester.js";
-import { extractRoutes } from "../utils/fileparser.js";
+import { extractRoutes } from "../utils/fileParser.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);

@@ -18,7 +18,7 @@ app.use(cors({ origin: "http://localhost:3000" }));
 app.use(express.json());
 
 // Serve React build (for production)
-app.use(express.static(path.join(__dirname, "flowchart-ui/build")));
+app.use(express.static(path.join(__dirname, "flowchart-ui/public")));
 
 // ✅ Project-level flow
 app.get("/api/flow/project", (req, res) => {
