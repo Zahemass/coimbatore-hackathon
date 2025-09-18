@@ -1,3 +1,4 @@
+// filename: FileFlow.jsx
 import React, { useEffect, useCallback } from "react";
 import ReactFlow, {
   Background,
@@ -14,11 +15,25 @@ import FileNode from "./nodes/FileNode";
 
 const nodeTypes = { small: NodeSmall, fileNode: FileNode };
 
-export default function FileFlow({ fileNode, onSelectSymbol }) {
+export default function FileFlow({ fileNode, onSelectSymbol, githubFiles }) {
   const [nodes, setNodes, onNodesChange] = useNodesState([]);
   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
 
   useEffect(() => {
+    // ✅ Case 1: If we pulled from GitHub, build nodes directly
+    if (githubFiles && githubFiles.length > 0) {
+      const subNodes = githubFiles.map((f, idx) => ({
+        id: `github-${idx}`,
+        data: { label: f.path, relPath: f.path },
+        position: { x: Math.random() * 400, y: Math.random() * 400 },
+        type: "fileNode",
+      }));
+      setNodes(subNodes);
+      setEdges([]); // no edges yet, unless you want dependency mapping
+      return;
+    }
+
+    // ✅ Case 2: Local project file (default)
     if (!fileNode) return;
     const path = fileNode.id || fileNode.data?.relPath || fileNode.data?.label;
     fetchFileFlow(path)
@@ -27,28 +42,21 @@ export default function FileFlow({ fileNode, onSelectSymbol }) {
           ...n,
           type: n.type === "fileNode" ? "fileNode" : "small",
         }));
-        const subEdges = d.edges || [];
         setNodes(subNodes);
-        setEdges(subEdges);
+        setEdges(d.edges || []);
       })
       .catch((err) => console.error(err));
   }, [fileNode, setNodes, setEdges]);
 
-  const onNodeClick = useCallback(
-    (_, node) => {
-      if (node.type !== "fileNode") {
-        onSelectSymbol && onSelectSymbol(node);
-      } else {
-        onSelectSymbol && onSelectSymbol(null); // show full file
-      }
-    },
-    [onSelectSymbol]
-  );
+  const onNodeClick = useCallback((_, node) => {
+    if (node.type !== "fileNode") {
+      onSelectSymbol && onSelectSymbol(node);
+    } else {
+      onSelectSymbol && onSelectSymbol(null);
+    }
+  }, [onSelectSymbol]);
 
-  const onConnect = useCallback(
-    (params) => setEdges((es) => addEdge(params, es)),
-    [setEdges]
-  );
+  const onConnect = useCallback((params) => setEdges((es) => addEdge(params, es)), [setEdges]);
 
   return (
     <ReactFlow

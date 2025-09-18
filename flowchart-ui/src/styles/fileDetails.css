@@ -45,6 +45,10 @@
   transform: scale(1.1);
 }
 
+.file-list{
+  list-style-type: none;
+}
+
 .card {
   background: #1a1a2e;
   border-radius: 10px;

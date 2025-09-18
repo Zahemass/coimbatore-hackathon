@@ -1,3 +1,4 @@
+// filename: components/CodeEditorDrawer.jsx
 import React from "react";
 import Editor from "@monaco-editor/react";
 import "../styles/codeEditorDrawer.css";
@@ -28,7 +29,12 @@ export default function CodeEditorDrawer({
         theme="vs-dark"
         value={code}
         onChange={(v) => setCode(v || "")}
+        options={{
+          fontSize: 14,
+          minimap: { enabled: false },
+        }}
       />
+
     </div>
   );
 }
