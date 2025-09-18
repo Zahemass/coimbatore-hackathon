@@ -7,6 +7,7 @@ import axios from "axios";
 import { fileURLToPath } from "url";
 import { generateTestCases, loadTestCasesFromFile } from "../tester.js";
 import { extractRoutes } from "../utils/fileParser.js";
+import { analyzeFailure } from "../utils/rcaAnalyzer.js"; // ✅ add this
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -140,6 +141,7 @@ app.get("/code", (req, res) => {
 });
 
 /* ---------- Proxy (perform request server-side to avoid CORS) ---------- */
+
 app.post("/proxy", async (req, res) => {
   try {
     const { url, method = "GET", headers = {}, body } = req.body || {};
@@ -154,17 +156,36 @@ app.post("/proxy", async (req, res) => {
       validateStatus: () => true,
     });
 
+    // ✅ Generate RCA on error status
+    let rcaText = "";
+    if (resp.status >= 400) {
+      rcaText = await analyzeFailure({
+        method,
+        path: url,
+        params: {},
+        query: {},
+        body,
+        error: resp.data,
+      });
+    }
+
     return res.json({
       proxied: true,
       status: resp.status,
       headers: resp.headers,
       data: resp.data,
+      rca: rcaText, // ✅ include RCA in response
     });
   } catch (err) {
     console.error("❌ /proxy error:", err.message || err);
-    return res.status(500).json({ proxied: false, error: err.message || "Proxy error" });
+    return res.status(500).json({
+      proxied: false,
+      error: err.message || "Proxy error",
+      rca: "RCA unavailable due to proxy failure.",
+    });
   }
 });
+
 
 /* ---------- Save & Rollback ---------- */
 app.post("/save-code", (req, res) => {

@@ -1,15 +1,13 @@
 {
-  "endpoint": "/orders/12345",
+  "endpoint": "/signup",
   "methods": [
     "post"
   ],
   "file": "C:\\Users\\Zzz\\OneDrive\\Desktop\\dude-code\\dudecode\\sample\\index.js",
-  "instruction": "test /orders/:orderId api in index.js file",
+  "instruction": "test my signup api in index.js",
   "baseUrl": null,
-  "body": "{\n  \"product\": \"Laptop\",\n  \"qty\": 1\n}",
-  "params": {
-    "orderId": "12345"
-  },
+  "body": "{\n  \"username\": \"testuser\",\n  \"email\": \"testuser@example.com\",\n  \"password\": \"SecurePass123\"\n}",
+  "params": {},
   "query": {},
   "headers": {
     "Authorization": "Bearer my-secret-token-987"

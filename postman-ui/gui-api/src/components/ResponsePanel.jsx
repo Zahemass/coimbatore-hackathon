@@ -1,4 +1,5 @@
-import React from "react";
+// gui-api/src/components/ResponsePanel.jsx
+import React, { useState, useEffect } from "react";
 
 export default function ResponsePanel({
   response,
@@ -7,8 +8,24 @@ export default function ResponsePanel({
   history,
   timeline,
   aiSuggestions,
+  rcaText,          // ✅ RCA content passed in
   setBody,
+  switchToAiTab,
+  switchToRcaTab,  // ✅ toggle to RCA automatically on failure
 }) {
+  const [activeTab, setActiveTab] = useState("respTab");
+
+  useEffect(() => {
+    if (switchToAiTab) setActiveTab("aiTab");
+  }, [switchToAiTab]);
+
+  // ✅ Whenever switchToRcaTab changes, show RCA tab
+  useEffect(() => {
+    if (switchToRcaTab || (status && status.toString().startsWith("4")) || (status && status.toString().startsWith("5"))) {
+      setActiveTab("rcaTab");
+    }
+  }, [switchToRcaTab, status]);
+
   function copyResponse() {
     if (!response?.data) return;
     navigator.clipboard.writeText(
@@ -29,60 +46,59 @@ export default function ResponsePanel({
 
   return (
     <div className="response-section">
-      {/* Tabs */}
       <ul className="nav nav-tabs mt-3" role="tablist">
         <li className="nav-item">
           <button
-            className="nav-link active"
-            data-bs-toggle="tab"
-            data-bs-target="#respTab"
+            className={`nav-link ${activeTab === "respTab" ? "active" : ""}`}
+            onClick={() => setActiveTab("respTab")}
           >
             Response
           </button>
         </li>
         <li className="nav-item">
           <button
-            className="nav-link"
-            data-bs-toggle="tab"
-            data-bs-target="#aiTab"
+            className={`nav-link ${activeTab === "aiTab" ? "active" : ""}`}
+            onClick={() => setActiveTab("aiTab")}
           >
-            AI
+            AI Suggestion
           </button>
         </li>
         <li className="nav-item">
           <button
-            className="nav-link"
-            data-bs-toggle="tab"
-            data-bs-target="#historyTab"
+            className={`nav-link ${activeTab === "historyTab" ? "active" : ""}`}
+            onClick={() => setActiveTab("historyTab")}
           >
             History
           </button>
         </li>
         <li className="nav-item">
           <button
-            className="nav-link"
-            data-bs-toggle="tab"
-            data-bs-target="#timelineTab"
+            className={`nav-link ${activeTab === "timelineTab" ? "active" : ""}`}
+            onClick={() => setActiveTab("timelineTab")}
           >
             Timeline
           </button>
         </li>
+        {/* ✅ RCA Tab */}
+        <li className="nav-item">
+          <button
+            className={`nav-link ${activeTab === "rcaTab" ? "active" : ""}`}
+            onClick={() => setActiveTab("rcaTab")}
+          >
+            RCA
+          </button>
+        </li>
       </ul>
 
-      {/* Tab Content */}
       <div className="tab-content card-style response-tabs-content flex-fill">
         {/* Response Tab */}
-        <div
-          className="tab-pane fade show active d-flex flex-column"
-          id="respTab"
-        >
-          <div className="response-meta d-flex align-items-center gap-2">
+        <div className={`tab-pane fade ${activeTab === "respTab" ? "show active" : ""}`}>
+          <div className="response-meta d-flex flex-row-reverse align-items-center gap-2">
             <div className={`status-badge ${statusClass(status)}`}>
               {status || "—"}
             </div>
             <div className="meta-pill">{meta.time}</div>
             <div className="meta-pill">{meta.size}</div>
-            <div className="meta-pill flex-fill">{meta.url}</div>
             <div className="ms-auto tiny muted-note">Response</div>
           </div>
 
@@ -104,8 +120,8 @@ export default function ResponsePanel({
           </div>
         </div>
 
-        {/* AI Suggestions */}
-        <div className="tab-pane fade" id="aiTab">
+        {/* AI Suggestions Tab */}
+        <div className={`tab-pane fade ${activeTab === "aiTab" ? "show active" : ""}`}>
           {aiSuggestions.length === 0 && (
             <div className="ai-panel">
               No suggestions yet — press <b>AI Suggestions</b> in request panel.
@@ -125,13 +141,16 @@ export default function ResponsePanel({
           ))}
         </div>
 
-        {/* History */}
-        <div className="tab-pane fade" id="historyTab">
+        {/* History Tab */}
+        <div
+          className={`tab-pane fade ${activeTab === "historyTab" ? "show active" : ""}`}
+          style={{ maxHeight: "250px", overflowY: "auto" }}
+        >
           {history.length === 0 && (
             <div className="tiny muted-note">No saved history</div>
           )}
           {history.map((h, i) => (
-            <div key={i} className="hist-item">
+            <div key={i} className="list-item">
               <div>
                 <b>{h.method}</b> {h.url}
               </div>
@@ -140,8 +159,8 @@ export default function ResponsePanel({
           ))}
         </div>
 
-        {/* Timeline */}
-        <div className="tab-pane fade" id="timelineTab">
+        {/* Timeline Tab */}
+        <div className={`tab-pane fade ${activeTab === "timelineTab" ? "show active" : ""}`}>
           {timeline.length === 0 && (
             <div className="tiny muted-note">
               No timeline yet — send a request to populate.
@@ -157,6 +176,19 @@ export default function ResponsePanel({
               </div>
             </div>
           ))}
+        </div>
+
+        {/* ✅ RCA Tab */}
+        <div className={`tab-pane fade ${activeTab === "rcaTab" ? "show active" : ""}`}>
+          {rcaText ? (
+            <div className="ai-panel" style={{ whiteSpace: "pre-wrap" }}>
+              {rcaText}
+            </div>
+          ) : (
+            <div className="tiny muted-note">
+              No RCA yet — run a test and see failures.
+            </div>
+          )}
         </div>
       </div>
     </div>

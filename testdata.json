@@ -141,5 +141,37 @@
         "test": "dummy"
       }
     }
+  ],
+  "/signup": [
+    {
+      "name": "Valid case - Successful signup",
+      "params": {},
+      "query": {},
+      "data": {
+        "username": "testuser",
+        "email": "testuser@example.com",
+        "password": "SecurePass123"
+      }
+    },
+    {
+      "name": "Invalid case - Missing username",
+      "params": {},
+      "query": {},
+      "data": {
+        "username": "",
+        "email": "testuser@example.com",
+        "password": "SecurePass123"
+      }
+    },
+    {
+      "name": "Invalid case - Invalid email format",
+      "params": {},
+      "query": {},
+      "data": {
+        "username": "testuser",
+        "email": "not-an-email",
+        "password": "SecurePass123"
+      }
+    }
   ]
 }

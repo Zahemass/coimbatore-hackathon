@@ -7,10 +7,8 @@ import SnippetPanel from "./components/SnippetPanel";
 import FullscreenEditor from "./components/FullscreenEditor";
 import axios from "axios";
 
-// Import Bootstrap JS so tabs work
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 
-// Helper for truncating long URLs
 function truncate(s, n = 40) {
   return s && s.length > n ? s.slice(0, n - 1) + "…" : s || "";
 }
@@ -26,6 +24,7 @@ export default function App() {
   const [body, setBody] = useState(
     JSON.stringify({ email: "test@example.com", password: "Passw0rd!" }, null, 2)
   );
+  const [rcaText, setRcaText] = useState("");
 
   // Response/meta state
   const [response, setResponse] = useState(null);
@@ -42,18 +41,20 @@ export default function App() {
   const [snippetFile, setSnippetFile] = useState(null);
   const [fullscreen, setFullscreen] = useState(false);
 
+  // AI tab switch state
+  const [aiTabTrigger, setAiTabTrigger] = useState(false);
+
   // Load history from localStorage
   useEffect(() => {
     const raw = localStorage.getItem("apitester_history_v2");
     if (raw) setHistory(JSON.parse(raw));
   }, []);
 
-  // Save history whenever updated
   useEffect(() => {
     localStorage.setItem("apitester_history_v2", JSON.stringify(history));
   }, [history]);
 
-  // === Prefill from CLI (gui-prefill.json) ===
+  // Prefill
   useEffect(() => {
     async function loadPrefill() {
       try {
@@ -62,7 +63,6 @@ export default function App() {
         });
         if (res.data) {
           const pref = res.data;
-
           if (pref.method) setMethod(pref.method.toUpperCase());
           if (pref.baseUrl) setBase(pref.baseUrl);
           if (pref.endpoint) {
@@ -93,7 +93,7 @@ export default function App() {
     loadPrefill();
   }, [base]);
 
-  // === Auto-load first available code snippet ===
+  // Load initial code
   useEffect(() => {
     async function loadInitialCode() {
       try {
@@ -112,7 +112,7 @@ export default function App() {
     loadInitialCode();
   }, []);
 
-  // === Send request through backend proxy ===
+  // === Send request ===
   async function sendRequest() {
     let finalUrl = url.trim();
     if (!finalUrl) return alert("Enter URL");
@@ -157,8 +157,8 @@ export default function App() {
         size: JSON.stringify(res.data.data || "").length + " bytes",
         url: truncate(finalUrl, 180),
       });
+      setRcaText(res.data.rca || ""); // ✅ Capture RCA from backend
 
-      // Update logs
       setTimeline((t) => [
         { method, url: finalUrl, status: res.data.status, took },
         ...t.slice(0, 29),
@@ -171,6 +171,7 @@ export default function App() {
       setResponse({ error: err.message });
       setStatus("ERR");
       setMeta({ time: "—", size: "—", url: finalUrl });
+      setRcaText("No RCA generated (proxy error).");
     }
   }
 
@@ -183,8 +184,10 @@ export default function App() {
         numCases: 5,
       });
       setAiSuggestions(res.data.cases || []);
+      setAiTabTrigger(true);
     } catch (err) {
       setAiSuggestions([{ name: "AI failed", data: { error: err.message } }]);
+      setAiTabTrigger(true);
     }
   }
 
@@ -192,7 +195,10 @@ export default function App() {
     <div className="container-app">
       <Header />
       <div className="layout-grid">
-        <Sidebar setSnippetCode={setSnippetCode} setSnippetFile={setSnippetFile} />
+        <span>
+          <h3 style={{ fontSize: "1rem" }}>workspace</h3>
+          <Sidebar setSnippetCode={setSnippetCode} setSnippetFile={setSnippetFile} />
+        </span>
 
         <main className="workspace">
           <RequestPanel
@@ -212,7 +218,9 @@ export default function App() {
             setBody={setBody}
             sendRequest={sendRequest}
             fetchAiSuggestions={fetchAiSuggestions}
+            switchResponseTab={(tab) => setAiTabTrigger(tab === "aiTab")}
           />
+
           <ResponsePanel
             response={response}
             status={status}
@@ -220,7 +228,10 @@ export default function App() {
             history={history}
             timeline={timeline}
             aiSuggestions={aiSuggestions}
+            rcaText={rcaText}
+            switchToRcaTab={!!rcaText}
             setBody={setBody}
+            switchToAiTab={aiTabTrigger}
           />
         </main>
 
@@ -228,20 +239,18 @@ export default function App() {
           snippetCode={snippetCode}
           setSnippetCode={setSnippetCode}
           snippetFile={snippetFile}
-          onExpand={() => setFullscreen(true)}   // ✅ correct
+          onExpand={() => setFullscreen(true)}
         />
-
       </div>
 
       {fullscreen && (
         <FullscreenEditor
-  snippetCode={snippetCode}
-  setSnippetCode={setSnippetCode}
-  snippetFile={snippetFile}
-  open={fullscreen}
-  setOpen={setFullscreen}
-/>
-
+          snippetCode={snippetCode}
+          setSnippetCode={setSnippetCode}
+          snippetFile={snippetFile}
+          open={fullscreen}
+          setOpen={setFullscreen}
+        />
       )}
     </div>
   );

@@ -96,73 +96,7 @@ export default function HeaderBar({
         )}
       </div>
 
-      {/* Center - GitHub Button */}
-      <div style={{ position: "relative" }}>
-        <button
-          onClick={() => setShowMenu(!showMenu)}
-          style={{
-            background: "#000",
-            color: "#fff",
-            padding: "8px 16px",
-            borderRadius: "6px",
-            border: "none",
-            cursor: "pointer",
-            fontWeight: "bold",
-          }}
-        >
-          🐙 GitHub
-        </button>
-        {showMenu && (
-          <div
-            style={{
-              position: "absolute",
-              top: "45px",
-              left: "50%",
-              transform: "translateX(-50%)",
-              background: "#1f2937",
-              color: "#fff",
-              padding: "10px",
-              borderRadius: "6px",
-              zIndex: 20,
-              minWidth: "120px",
-              textAlign: "center",
-            }}
-          >
-            <button
-              onClick={handlePull}
-              style={{
-                display: "block",
-                width: "100%",
-                margin: "5px 0",
-                padding: "6px",
-                background: "#111827",
-                color: "#fff",
-                border: "none",
-                borderRadius: "4px",
-                cursor: "pointer",
-              }}
-            >
-              📥 Pull
-            </button>
-            <button
-              onClick={handlePush}
-              style={{
-                display: "block",
-                width: "100%",
-                margin: "5px 0",
-                padding: "6px",
-                background: "#111827",
-                color: "#fff",
-                border: "none",
-                borderRadius: "4px",
-                cursor: "pointer",
-              }}
-            >
-              📤 Push
-            </button>
-          </div>
-        )}
-      </div>
+      
 
       {/* Right side */}
       <div className="header-right">

@@ -218,7 +218,7 @@ export async function runApiTests(parsed, port, numCases = 5) {
         console.log("RCA WORKING HERE");     
         console.log(chalk.red(`❌ Failed → ${testCase.name}`), err.response?.data || err.message);
         // RCA hook
-  await analyzeFailure({
+  const rcaOutput = await analyzeFailure({
   method,
   path: endpoint,
   params,
@@ -235,6 +235,7 @@ export async function runApiTests(parsed, port, numCases = 5) {
           body: payload,
           case: testCase.name,
           error: err.message,
+          rca: rcaOutput, 
         });
       }
     }
@@ -293,25 +294,27 @@ export async function runAutoTests(routes, port, numCases = 5) {
         console.log("RCA WORKING HERE");
         console.log(chalk.red(`❌ ${route.method.toUpperCase()} Failed → ${testCase.name}`), err.response?.data || err.message);
         
-         // RCA hook
-  await analyzeFailure({
-    method: route.method,
-    path: route.path,
-    params,
-    query,
-    body: payload,
-    error: err.response?.data || err.message,
-  });
-        
-        results.push({
-          method: route.method,
-          path: route.path,
-          params,
-          query,
-          body: payload,
-          case: testCase.name,
-          error: err.message,
-        });
+        // RCA hook
+const rcaOutput = await analyzeFailure({
+  method: route.method,
+  path: route.path,
+  params,
+  query,
+  body: payload,
+  error: err.response?.data || err.message,
+});
+
+results.push({
+  method: route.method,
+  path: route.path,
+  params,
+  query,
+  body: payload,
+  case: testCase.name,
+  error: err.message,
+  rca: rcaOutput,   // ✅ now GUI can show it
+});
+
       }
     }
   }

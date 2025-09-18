@@ -1,11 +1,8 @@
-// postman-ui/client/src/components/RequestPanel.jsx
 import React, { useState } from "react";
 
 export default function RequestPanel({
   method,
   setMethod,
-  base,
-  setBase,
   url,
   setUrl,
   params,
@@ -18,6 +15,7 @@ export default function RequestPanel({
   setBody,
   sendRequest,
   fetchAiSuggestions,
+  switchResponseTab, // new prop
 }) {
   const [loading, setLoading] = useState(false);
 
@@ -43,38 +41,24 @@ export default function RequestPanel({
     setLoading(true);
     await fetchAiSuggestions();
     setLoading(false);
+    if (switchResponseTab) switchResponseTab("aiTab");
   }
 
   return (
     <div className="workspace">
       {/* Request Row */}
-      <div className="card-style request-row d-flex gap-2 align-items-center">
+      <div className="card-style request-row d-flex gap-3 align-items-center">
         <div style={{ minWidth: 120 }}>
           <select
             value={method}
             onChange={(e) => setMethod(e.target.value)}
-            className="method-select w-100"
+            className="method-select w-80"
           >
             <option>GET</option>
             <option>POST</option>
             <option>PUT</option>
             <option>DELETE</option>
             <option>PATCH</option>
-          </select>
-        </div>
-
-        <div style={{ width: 220 }}>
-          <select
-            value={base}
-            onChange={(e) => {
-              setBase(e.target.value);
-              setUrl(e.target.value + "/signup");
-            }}
-            className="method-select w-100"
-          >
-            <option value="http://localhost:3000">localhost:3000</option>
-            <option value="http://localhost:4000">localhost:4000</option>
-            <option value="http://localhost:5173">localhost:5173</option>
           </select>
         </div>
 
@@ -85,7 +69,7 @@ export default function RequestPanel({
           placeholder="http://localhost:3000/signup"
         />
 
-        <div className="controls d-flex align-items-center gap-2">
+        <div className="controls d-flex align-items-center gap-3">
           <button
             onClick={handleSend}
             disabled={loading}
@@ -146,7 +130,7 @@ export default function RequestPanel({
             onChange={(e) => setBody(e.target.value)}
             className="json-input large"
           />
-          <div className="d-flex gap-2 mt-2">
+          <div className="d-flex gap-2 mt-3">
             <button onClick={formatBody} className="btn btn-outline-light small">
               <i className="bi bi-code-slash"></i> Format
             </button>

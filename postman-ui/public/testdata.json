@@ -68,52 +68,33 @@
   "/signup": [
     {
       "name": "Valid case - Successful signup",
-      "params": {},
-      "query": {},
       "data": {
         "username": "testuser",
-        "password": "Password123!",
-        "email": "testuser@example.com"
-      }
+        "email": "testuser@example.com",
+        "password": "SecurePass123"
+      },
+      "params": {},
+      "query": {}
     },
     {
       "name": "Invalid case - Missing username",
-      "params": {},
-      "query": {},
       "data": {
-        "password": "Password123!",
-        "email": "testuser@example.com"
-      }
+        "username": "",
+        "email": "testuser@example.com",
+        "password": "SecurePass123"
+      },
+      "params": {},
+      "query": {}
     },
     {
       "name": "Invalid case - Invalid email format",
-      "params": {},
-      "query": {},
       "data": {
         "username": "testuser",
-        "password": "Password123!",
-        "email": "invalid-email-format"
-      }
-    },
-    {
-      "name": "Invalid case - Password too weak",
+        "email": "not-an-email",
+        "password": "SecurePass123"
+      },
       "params": {},
-      "query": {},
-      "data": {
-        "username": "testuser",
-        "password": "123",
-        "email": "testuser@example.com"
-      }
-    },
-    {
-      "name": "Edge case - Duplicate username",
-      "params": {},
-      "query": {},
-      "data": {
-        "username": "existinguser",
-        "password": "Password123!",
-        "email": "newuser@example.com"
-      }
+      "query": {}
     }
   ],
   "/orders/12345": [
