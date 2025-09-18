@@ -1,3 +1,4 @@
+// postman-ui/gui-api/src/components/Sidebar.jsx
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 
@@ -21,7 +22,7 @@ export default function Sidebar({ setSnippetCode, setSnippetFile }) {
   async function loadCode(file, endpoint) {
     try {
       const res = await axios.get("/code", { params: { file, endpoint } });
-      setSnippetCode(res.data || "// no code");
+      setSnippetCode(res.data || "// no code found");
       setSnippetFile(file);
     } catch (err) {
       setSnippetCode("// ❌ Failed to load code: " + err.message);
@@ -63,7 +64,10 @@ export default function Sidebar({ setSnippetCode, setSnippetFile }) {
       </div>
 
       <div className="sidebar-bottom mt-2">
-        <button onClick={loadRoutes} className="btn btn-sm btn-outline-light w-100">
+        <button
+          onClick={loadRoutes}
+          className="btn btn-sm btn-outline-light w-100"
+        >
           <i className="bi bi-arrow-clockwise"></i> Refresh Routes
         </button>
       </div>

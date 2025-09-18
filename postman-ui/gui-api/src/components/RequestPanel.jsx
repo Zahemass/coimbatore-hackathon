@@ -1,4 +1,5 @@
-import React from "react";
+// postman-ui/client/src/components/RequestPanel.jsx
+import React, { useState } from "react";
 
 export default function RequestPanel({
   method,
@@ -18,6 +19,8 @@ export default function RequestPanel({
   sendRequest,
   fetchAiSuggestions,
 }) {
+  const [loading, setLoading] = useState(false);
+
   function formatBody() {
     try {
       setBody(JSON.stringify(JSON.parse(body), null, 2));
@@ -30,8 +33,21 @@ export default function RequestPanel({
     setBody("");
   }
 
+  async function handleSend() {
+    setLoading(true);
+    await sendRequest();
+    setLoading(false);
+  }
+
+  async function handleAiSuggestions() {
+    setLoading(true);
+    await fetchAiSuggestions();
+    setLoading(false);
+  }
+
   return (
     <div className="workspace">
+      {/* Request Row */}
       <div className="card-style request-row d-flex gap-2 align-items-center">
         <div style={{ minWidth: 120 }}>
           <select
@@ -70,38 +86,66 @@ export default function RequestPanel({
         />
 
         <div className="controls d-flex align-items-center gap-2">
-          <button onClick={sendRequest} className="btn btn-primary send-btn">
-            <i className="bi bi-lightning-charge-fill"></i> Send
+          <button
+            onClick={handleSend}
+            disabled={loading}
+            className="btn btn-primary send-btn"
+          >
+            <i className="bi bi-lightning-charge-fill"></i>
+            {loading ? " Sending…" : " Send"}
           </button>
         </div>
       </div>
 
+      {/* Tabs */}
       <ul className="nav nav-tabs mt-3" role="tablist">
         <li className="nav-item">
-          <button className="nav-link active" data-bs-toggle="tab" data-bs-target="#bodyTab">
+          <button
+            className="nav-link active"
+            data-bs-toggle="tab"
+            data-bs-target="#bodyTab"
+          >
             Body
           </button>
         </li>
         <li className="nav-item">
-          <button className="nav-link" data-bs-toggle="tab" data-bs-target="#paramsTab">
+          <button
+            className="nav-link"
+            data-bs-toggle="tab"
+            data-bs-target="#paramsTab"
+          >
             Params
           </button>
         </li>
         <li className="nav-item">
-          <button className="nav-link" data-bs-toggle="tab" data-bs-target="#authTab">
+          <button
+            className="nav-link"
+            data-bs-toggle="tab"
+            data-bs-target="#authTab"
+          >
             Auth
           </button>
         </li>
         <li className="nav-item">
-          <button className="nav-link" data-bs-toggle="tab" data-bs-target="#headersTab">
+          <button
+            className="nav-link"
+            data-bs-toggle="tab"
+            data-bs-target="#headersTab"
+          >
             Headers
           </button>
         </li>
       </ul>
 
+      {/* Tab Content */}
       <div className="tab-content card-style request-tabs-content">
+        {/* Body Tab */}
         <div className="tab-pane fade show active" id="bodyTab">
-          <textarea value={body} onChange={(e) => setBody(e.target.value)} className="json-input large" />
+          <textarea
+            value={body}
+            onChange={(e) => setBody(e.target.value)}
+            className="json-input large"
+          />
           <div className="d-flex gap-2 mt-2">
             <button onClick={formatBody} className="btn btn-outline-light small">
               <i className="bi bi-code-slash"></i> Format
@@ -109,12 +153,17 @@ export default function RequestPanel({
             <button onClick={clearBody} className="btn btn-outline-light small">
               <i className="bi bi-x-lg"></i> Clear
             </button>
-            <button onClick={fetchAiSuggestions} className="btn btn-outline-light small ms-auto">
+            <button
+              onClick={handleAiSuggestions}
+              disabled={loading}
+              className="btn btn-outline-light small ms-auto"
+            >
               <i className="bi bi-robot"></i> AI Suggestions
             </button>
           </div>
         </div>
 
+        {/* Params Tab */}
         <div className="tab-pane fade" id="paramsTab">
           <textarea
             value={params}
@@ -124,6 +173,7 @@ export default function RequestPanel({
           />
         </div>
 
+        {/* Auth Tab */}
         <div className="tab-pane fade" id="authTab">
           <textarea
             value={auth}
@@ -133,6 +183,7 @@ export default function RequestPanel({
           />
         </div>
 
+        {/* Headers Tab */}
         <div className="tab-pane fade" id="headersTab">
           <textarea
             value={headers}

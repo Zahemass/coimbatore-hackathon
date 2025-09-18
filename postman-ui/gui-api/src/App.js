@@ -7,12 +7,16 @@ import SnippetPanel from "./components/SnippetPanel";
 import FullscreenEditor from "./components/FullscreenEditor";
 import axios from "axios";
 
-// Helper
+// Import Bootstrap JS so tabs work
+import "bootstrap/dist/js/bootstrap.bundle.min.js";
+
+// Helper for truncating long URLs
 function truncate(s, n = 40) {
   return s && s.length > n ? s.slice(0, n - 1) + "…" : s || "";
 }
 
 export default function App() {
+  // Request state
   const [method, setMethod] = useState("POST");
   const [base, setBase] = useState("http://localhost:3000");
   const [url, setUrl] = useState("http://localhost:3000/signup");
@@ -20,33 +24,99 @@ export default function App() {
   const [headers, setHeaders] = useState("");
   const [auth, setAuth] = useState("");
   const [body, setBody] = useState(
-    '{"email":"test@example.com","password":"Passw0rd!"}'
+    JSON.stringify({ email: "test@example.com", password: "Passw0rd!" }, null, 2)
   );
 
+  // Response/meta state
   const [response, setResponse] = useState(null);
   const [status, setStatus] = useState("—");
   const [meta, setMeta] = useState({ time: "—", size: "—", url: "—" });
 
+  // Logs
   const [history, setHistory] = useState([]);
   const [timeline, setTimeline] = useState([]);
   const [aiSuggestions, setAiSuggestions] = useState([]);
 
-  const [snippetCode, setSnippetCode] = useState("// Select a route…");
+  // Code panel
+  const [snippetCode, setSnippetCode] = useState("// Loading code…");
   const [snippetFile, setSnippetFile] = useState(null);
   const [fullscreen, setFullscreen] = useState(false);
 
+  // Load history from localStorage
   useEffect(() => {
     const raw = localStorage.getItem("apitester_history_v2");
     if (raw) setHistory(JSON.parse(raw));
   }, []);
+
+  // Save history whenever updated
   useEffect(() => {
     localStorage.setItem("apitester_history_v2", JSON.stringify(history));
   }, [history]);
 
-  // Send request (via proxy)
+  // === Prefill from CLI (gui-prefill.json) ===
+  useEffect(() => {
+    async function loadPrefill() {
+      try {
+        const res = await axios.get("../../public/gui-prefill.json", {
+          headers: { "Cache-Control": "no-store" },
+        });
+        if (res.data) {
+          const pref = res.data;
+
+          if (pref.method) setMethod(pref.method.toUpperCase());
+          if (pref.baseUrl) setBase(pref.baseUrl);
+          if (pref.endpoint) {
+            const endpoint = pref.endpoint.startsWith("/")
+              ? pref.endpoint
+              : "/" + pref.endpoint;
+            setUrl((pref.baseUrl || base).replace(/\/$/, "") + endpoint);
+          }
+          if (pref.body) {
+            setBody(
+              typeof pref.body === "string"
+                ? pref.body
+                : JSON.stringify(pref.body, null, 2)
+            );
+          }
+          if (pref.headers) {
+            const hdrLines = Object.entries(pref.headers)
+              .map(([k, v]) => `${k}: ${v}`)
+              .join("\n");
+            setHeaders(hdrLines);
+            if (pref.headers.Authorization) setAuth(pref.headers.Authorization);
+          }
+        }
+      } catch (err) {
+        console.log("No prefill found:", err.message);
+      }
+    }
+    loadPrefill();
+  }, [base]);
+
+  // === Auto-load first available code snippet ===
+  useEffect(() => {
+    async function loadInitialCode() {
+      try {
+        const routesRes = await axios.get("/routes");
+        const routes = routesRes.data || [];
+        if (routes.length > 0) {
+          const first = routes[0];
+          const codeRes = await axios.get("/code", { params: { file: first.file } });
+          setSnippetFile(first.file);
+          setSnippetCode(codeRes.data || "// no code found");
+        }
+      } catch (err) {
+        console.error("❌ Failed to load initial code:", err.message);
+      }
+    }
+    loadInitialCode();
+  }, []);
+
+  // === Send request through backend proxy ===
   async function sendRequest() {
     let finalUrl = url.trim();
     if (!finalUrl) return alert("Enter URL");
+
     if (params) {
       finalUrl += (finalUrl.includes("?") ? "&" : "?") + params;
     }
@@ -78,17 +148,25 @@ export default function App() {
         headers: hdrs,
         body: data,
       });
-      const took = Math.round(performance.now() - t0);
 
+      const took = Math.round(performance.now() - t0);
       setResponse(res.data);
-      setStatus(res.data.status);
+      setStatus(res.data.status || "—");
       setMeta({
         time: took + " ms",
         size: JSON.stringify(res.data.data || "").length + " bytes",
         url: truncate(finalUrl, 180),
       });
-      setTimeline((t) => [{ method, url: finalUrl, status: res.data.status, took }, ...t]);
-      setHistory((h) => [{ method, url: finalUrl, headers, body }, ...h.slice(0, 49)]);
+
+      // Update logs
+      setTimeline((t) => [
+        { method, url: finalUrl, status: res.data.status, took },
+        ...t.slice(0, 29),
+      ]);
+      setHistory((h) => [
+        { method, url: finalUrl, headers, body },
+        ...h.slice(0, 49),
+      ]);
     } catch (err) {
       setResponse({ error: err.message });
       setStatus("ERR");
@@ -96,6 +174,7 @@ export default function App() {
     }
   }
 
+  // === AI Suggestions ===
   async function fetchAiSuggestions() {
     try {
       const endpoint = new URL(url).pathname || "/";
@@ -114,6 +193,7 @@ export default function App() {
       <Header />
       <div className="layout-grid">
         <Sidebar setSnippetCode={setSnippetCode} setSnippetFile={setSnippetFile} />
+
         <main className="workspace">
           <RequestPanel
             method={method}
@@ -143,20 +223,25 @@ export default function App() {
             setBody={setBody}
           />
         </main>
+
         <SnippetPanel
           snippetCode={snippetCode}
           setSnippetCode={setSnippetCode}
           snippetFile={snippetFile}
-          onExpand={() => setFullscreen(true)}
+          onExpand={() => setFullscreen(true)}   // ✅ correct
         />
+
       </div>
+
       {fullscreen && (
         <FullscreenEditor
-          snippetCode={snippetCode}
-          setSnippetCode={setSnippetCode}
-          snippetFile={snippetFile}
-          onClose={() => setFullscreen(false)}
-        />
+  snippetCode={snippetCode}
+  setSnippetCode={setSnippetCode}
+  snippetFile={snippetFile}
+  open={fullscreen}
+  setOpen={setFullscreen}
+/>
+
       )}
     </div>
   );

@@ -71,6 +71,38 @@
       "data": {
         "qty": 3
       }
+    },
+    {
+      "name": "Valid case - Retrieve existing order",
+      "params": {
+        "orderId": "12345"
+      },
+      "query": {},
+      "data": {}
+    },
+    {
+      "name": "Invalid case - Order ID not found",
+      "params": {
+        "orderId": "99999"
+      },
+      "query": {},
+      "data": {}
+    },
+    {
+      "name": "Invalid case - Order ID is non-numeric",
+      "params": {
+        "orderId": "abcde"
+      },
+      "query": {},
+      "data": {}
+    },
+    {
+      "name": "Invalid case - Order ID is empty",
+      "params": {
+        "orderId": ""
+      },
+      "query": {},
+      "data": {}
     }
   ]
 }

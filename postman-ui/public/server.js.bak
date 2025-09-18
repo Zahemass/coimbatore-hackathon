@@ -16,18 +16,9 @@ const PORT = process.env.PORT || 5173;
 
 app.use(express.json({ limit: "10mb" }));
 
-// ---------- Public dir (for testdata/prefill JSON) ----------
 const publicDir = path.join(__dirname, "public");
 if (!fs.existsSync(publicDir)) fs.mkdirSync(publicDir, { recursive: true });
-app.use("/public", express.static(publicDir));
-
-// ---------- React Build ----------
-const clientBuildPath = path.join(__dirname, "gui-api", "build");
-if (fs.existsSync(clientBuildPath)) {
-  app.use(express.static(clientBuildPath));
-} else {
-  console.warn("⚠️ React build folder not found. Run: cd gui-api && npm run build");
-}
+app.use(express.static(publicDir));
 
 /* ---------- /generate-testcases ---------- */
 app.post("/generate-testcases", async (req, res) => {
@@ -73,8 +64,14 @@ app.post("/save-result", (req, res) => {
 
 /* ---------- Routes scanner ---------- */
 let rollbackCache = {};
+
+// Only scan sample/ folder for backend routes
+// keep rollbackCache and extractRoutes imports at top
+
+// --- NEW: remember which file was chosen by CLI ---
 const prefillPath = path.join(publicDir, "gui-prefill.json");
 
+// Routes endpoint should read the file from prefill instead of scanning all js
 app.get("/routes", (req, res) => {
   try {
     let targetFile = null;
@@ -82,7 +79,7 @@ app.get("/routes", (req, res) => {
     if (fs.existsSync(prefillPath)) {
       const pref = JSON.parse(fs.readFileSync(prefillPath, "utf-8"));
       if (pref && pref.file) {
-        targetFile = pref.file; // CLI wrote this
+        targetFile = pref.file; // CLI wrote this (absolute or relative)
       }
     }
 
@@ -140,11 +137,12 @@ app.get("/code", (req, res) => {
 });
 
 /* ---------- Proxy (perform request server-side to avoid CORS) ---------- */
-app.post("/proxy", async (req, res) => {
+app.post("/proxy", express.json({ limit: "10mb" }), async (req, res) => {
   try {
     const { url, method = "GET", headers = {}, body } = req.body || {};
     if (!url) return res.status(400).json({ error: "Missing url" });
 
+    // perform upstream request server-side (avoid CORS)
     const resp = await axios({
       method: method.toLowerCase(),
       url,
@@ -154,6 +152,7 @@ app.post("/proxy", async (req, res) => {
       validateStatus: () => true,
     });
 
+    // forward structured response
     return res.json({
       proxied: true,
       status: resp.status,
@@ -194,11 +193,11 @@ app.post("/rollback-code", (req, res) => {
 
 /* ---------- SPA fallback ---------- */
 app.use((req, res) => {
-  const indexPath = path.join(clientBuildPath, "index.html");
+  const indexPath = path.join(publicDir, "index.html");
   if (fs.existsSync(indexPath)) {
     res.sendFile(indexPath);
   } else {
-    res.status(404).send("React UI not built yet.");
+    res.status(404).send("UI not found.");
   }
 });
 

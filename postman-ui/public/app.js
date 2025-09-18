@@ -655,4 +655,3 @@ function getSummary(obj) {
   if (obj.error) return obj.error;
   return '';
 }
-

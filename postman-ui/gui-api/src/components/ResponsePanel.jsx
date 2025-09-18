@@ -19,39 +19,73 @@ export default function ResponsePanel({
     alert("Copied response");
   }
 
+  function statusClass(code) {
+    if (!code) return "";
+    if (code.toString().startsWith("2")) return "status-2xx";
+    if (code.toString().startsWith("4")) return "status-4xx";
+    if (code.toString().startsWith("5")) return "status-5xx";
+    return "";
+  }
+
   return (
     <div className="response-section">
+      {/* Tabs */}
       <ul className="nav nav-tabs mt-3" role="tablist">
         <li className="nav-item">
-          <button className="nav-link active" data-bs-toggle="tab" data-bs-target="#respTab">
+          <button
+            className="nav-link active"
+            data-bs-toggle="tab"
+            data-bs-target="#respTab"
+          >
             Response
           </button>
         </li>
         <li className="nav-item">
-          <button className="nav-link" data-bs-toggle="tab" data-bs-target="#aiTab">
+          <button
+            className="nav-link"
+            data-bs-toggle="tab"
+            data-bs-target="#aiTab"
+          >
             AI
           </button>
         </li>
         <li className="nav-item">
-          <button className="nav-link" data-bs-toggle="tab" data-bs-target="#historyTab">
+          <button
+            className="nav-link"
+            data-bs-toggle="tab"
+            data-bs-target="#historyTab"
+          >
             History
           </button>
         </li>
         <li className="nav-item">
-          <button className="nav-link" data-bs-toggle="tab" data-bs-target="#timelineTab">
+          <button
+            className="nav-link"
+            data-bs-toggle="tab"
+            data-bs-target="#timelineTab"
+          >
             Timeline
           </button>
         </li>
       </ul>
 
+      {/* Tab Content */}
       <div className="tab-content card-style response-tabs-content flex-fill">
-        <div className="tab-pane fade show active d-flex flex-column" id="respTab">
+        {/* Response Tab */}
+        <div
+          className="tab-pane fade show active d-flex flex-column"
+          id="respTab"
+        >
           <div className="response-meta d-flex align-items-center gap-2">
-            <div className="status-badge">{status || "—"}</div>
+            <div className={`status-badge ${statusClass(status)}`}>
+              {status || "—"}
+            </div>
             <div className="meta-pill">{meta.time}</div>
             <div className="meta-pill">{meta.size}</div>
             <div className="meta-pill flex-fill">{meta.url}</div>
+            <div className="ms-auto tiny muted-note">Response</div>
           </div>
+
           <div className="response-box">
             {response
               ? typeof response.data === "string"
@@ -59,13 +93,18 @@ export default function ResponsePanel({
                 : JSON.stringify(response.data, null, 2)
               : "— no response yet —"}
           </div>
+
           <div className="d-flex gap-2 mt-3">
-            <button onClick={copyResponse} className="btn btn-outline-light small">
+            <button
+              onClick={copyResponse}
+              className="btn btn-outline-light small"
+            >
               <i className="bi bi-clipboard"></i> Copy
             </button>
           </div>
         </div>
 
+        {/* AI Suggestions */}
         <div className="tab-pane fade" id="aiTab">
           {aiSuggestions.length === 0 && (
             <div className="ai-panel">
@@ -86,6 +125,7 @@ export default function ResponsePanel({
           ))}
         </div>
 
+        {/* History */}
         <div className="tab-pane fade" id="historyTab">
           {history.length === 0 && (
             <div className="tiny muted-note">No saved history</div>
@@ -100,6 +140,7 @@ export default function ResponsePanel({
           ))}
         </div>
 
+        {/* Timeline */}
         <div className="tab-pane fade" id="timelineTab">
           {timeline.length === 0 && (
             <div className="tiny muted-note">

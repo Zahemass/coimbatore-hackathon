@@ -1,5 +1,6 @@
+// postman-ui/client/src/components/FullscreenEditor.jsx
 import React, { useEffect, useRef } from "react";
-import * as monaco from "monaco-editor";
+import monaco from "../monacoSetup";
 import axios from "axios";
 
 export default function FullscreenEditor({
@@ -7,10 +8,12 @@ export default function FullscreenEditor({
   setOpen,
   snippetCode,
   setSnippetCode,
+  snippetFile,
 }) {
   const editorRef = useRef(null);
   const monacoInstance = useRef(null);
 
+  // Initialize Monaco when fullscreen is open
   useEffect(() => {
     if (open && editorRef.current) {
       monacoInstance.current = monaco.editor.create(editorRef.current, {
@@ -19,6 +22,12 @@ export default function FullscreenEditor({
         theme: "vs-dark",
         automaticLayout: true,
         fontFamily: "Montserrat",
+        fontSize: 14,
+      });
+
+      monacoInstance.current.onDidChangeModelContent(() => {
+        const newValue = monacoInstance.current.getValue();
+        setSnippetCode(newValue);
       });
     }
 
@@ -30,28 +39,37 @@ export default function FullscreenEditor({
     };
   }, [open]);
 
+  // Sync when snippetCode changes externally
+  useEffect(() => {
+    if (
+      monacoInstance.current &&
+      snippetCode !== undefined &&
+      monacoInstance.current.getValue() !== snippetCode
+    ) {
+      monacoInstance.current.setValue(snippetCode);
+    }
+  }, [snippetCode]);
+
+  // Save code to backend
   async function saveCode() {
+    if (!snippetFile) return alert("⚠️ No file loaded yet!");
     try {
       const code = monacoInstance.current.getValue();
-      const res = await axios.post("/save-code", {
-        file: "TEMP_FILE.js", // TODO: integrate actual file from backend
-        code,
-      });
-      alert("Saved: " + (res.data?.savedTo || "unknown file"));
-      setSnippetCode(code);
+      const res = await axios.post("/save-code", { file: snippetFile, code });
+      alert("✅ Saved: " + (res.data?.savedTo || "unknown file"));
     } catch (err) {
-      alert("Save failed: " + err.message);
+      alert("❌ Save failed: " + err.message);
     }
   }
 
+  // Rollback code
   async function rollbackCode() {
+    if (!snippetFile) return alert("⚠️ No file loaded yet!");
     try {
-      const res = await axios.post("/rollback-code", {
-        file: "TEMP_FILE.js", // TODO: integrate actual file from backend
-      });
-      alert("Rolled back " + res.data?.rolledBack);
+      const res = await axios.post("/rollback-code", { file: snippetFile });
+      alert("↩️ Rolled back " + res.data?.rolledBack);
     } catch (err) {
-      alert("Rollback failed: " + err.message);
+      alert("❌ Rollback failed: " + err.message);
     }
   }
 
@@ -71,10 +89,7 @@ export default function FullscreenEditor({
             <button onClick={saveCode} className="btn btn-sm btn-outline-light">
               <i className="bi bi-save"></i> Save
             </button>
-            <button
-              onClick={rollbackCode}
-              className="btn btn-sm btn-outline-light"
-            >
+            <button onClick={rollbackCode} className="btn btn-sm btn-outline-light">
               <i className="bi bi-arrow-counterclockwise"></i> Rollback
             </button>
           </div>
