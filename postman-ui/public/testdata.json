@@ -167,5 +167,34 @@
         "test": "dummy"
       }
     }
+  ],
+  "/settings": [
+    {
+      "name": "Valid case - Update settings with valid userId and theme",
+      "data": {
+        "userId": "12345",
+        "theme": "dark"
+      },
+      "params": {},
+      "query": {}
+    },
+    {
+      "name": "Invalid case - Missing userId",
+      "data": {
+        "userId": "",
+        "theme": "light"
+      },
+      "params": {},
+      "query": {}
+    },
+    {
+      "name": "Invalid case - Invalid theme value",
+      "data": {
+        "userId": "12345",
+        "theme": "invalid_theme"
+      },
+      "params": {},
+      "query": {}
+    }
   ]
 }

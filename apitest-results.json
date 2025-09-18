@@ -28,6 +28,19 @@
     "status": 200
   },
   {
+    "method": "post",
+    "path": "/orders/:orderId",
+    "params": {
+      "orderId": "54321"
+    },
+    "query": {},
+    "body": {
+      "qty": 3
+    },
+    "case": "Invalid case - Missing product field",
+    "error": "Request failed with status code 400"
+  },
+  {
     "method": "get",
     "path": "/orders/:orderId",
     "params": {
@@ -53,6 +66,19 @@
       "qty": 2
     },
     "case": "Invalid case - Order ID not found",
+    "status": 200
+  },
+  {
+    "method": "get",
+    "path": "/orders/:orderId",
+    "params": {
+      "orderId": "54321"
+    },
+    "query": {},
+    "body": {
+      "qty": 3
+    },
+    "case": "Invalid case - Missing product field",
     "status": 200
   }
 ]

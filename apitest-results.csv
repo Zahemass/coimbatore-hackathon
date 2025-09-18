@@ -1,5 +1,7 @@
 METHOD,PATH,STATUS,TIME,ERROR
 post,/orders/:orderId,200,,
 post,/orders/:orderId,200,,
+post,/orders/:orderId,,,Request failed with status code 400
+get,/orders/:orderId,200,,
 get,/orders/:orderId,200,,
 get,/orders/:orderId,200,,

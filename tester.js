@@ -219,13 +219,14 @@ export async function runApiTests(parsed, port, numCases = 5) {
         console.log(chalk.red(`❌ Failed → ${testCase.name}`), err.response?.data || err.message);
         // RCA hook
   await analyzeFailure({
-    method: route.method,
-    path: route.path,
-    params,
-    query,
-    body: payload,
-    error: err.response?.data || err.message,
-  });
+  method,
+  path: endpoint,
+  params,
+  query,
+  body: payload,
+  error: err.response?.data || err.message,
+});
+
         results.push({
           method,
           path: endpoint,

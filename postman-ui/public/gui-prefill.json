@@ -1,16 +1,14 @@
 {
-  "endpoint": "/orders/12345",
+  "endpoint": "/orders/{orderId}",
   "methods": [
-    "post"
+    "get"
   ],
   "file": "/home/zubair/Desktop/devbuddy/sample/index.js",
   "instruction": "test my /orders/:orderId api",
   "baseUrl": null,
-  "body": "{\n  \"product\": \"Laptop\",\n  \"qty\": 1\n}",
-  "params": {
-    "orderId": "12345"
-  },
-  "query": {},
+  "body": null,
+  "params": null,
+  "query": null,
   "headers": {
     "Authorization": "Bearer my-secret-token-987"
   }
