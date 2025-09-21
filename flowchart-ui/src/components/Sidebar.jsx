@@ -8,54 +8,7 @@ export default function Sidebar({ view, activeFile, onSelectFile, onSelectSymbol
   const [symbols, setSymbols] = useState([]);
 
   // load project files
-  useEffect(() => {
-    fetchProjectFlow()
-      .then((data) => {
-        const fileNodes = (data.nodes || [])
-          .filter((n) => n.type === "fileNode")
-          .map((n) => ({
-            id: n.id,
-            data: n.data,
-          }));
-        setFiles(fileNodes);
-      })
-      .catch((err) => {
-        console.error("Error loading project files:", err);
-      });
-  }, []);
-
-  // open file → fetch functions
-  const openFile = async (file) => {
-    onSelectFile && onSelectFile(file);
-    try {
-      const flow = await fetchFileFlow(file.id);
-      const funcs = (flow.nodes || [])
-        .filter((n) => n.type !== "fileNode")
-        .map((n) => ({ id: n.id, label: n.data?.label || n.id, data: n.data }));
-      setSymbols(funcs);
-    } catch (err) {
-      console.error("Error loading file functions:", err);
-    }
-  };
-
-  // helper → choose icon based on extension
-  const getFileIcon = (fileName) => {
-    if (!fileName) return <FaFileAlt color="#9CA3AF" />;
-    const ext = fileName.split(".").pop();
-    switch (ext) {
-      case "jsx":
-      case "tsx":
-        return <FaReact color="#61dafb" />;
-      case "js":
-        return <FaJsSquare color="#f7df1e" />;
-      case "py":
-        return <FaPython color="#3776ab" />;
-      default:
-        return <FaFileAlt color="#9CA3AF" />;
-    }
-  };
-
-  return (
+ 
     <aside
       className="sidebar"
       style={{ width: "250px", color: "#fff", height: "100vh", overflowY: "auto" }}

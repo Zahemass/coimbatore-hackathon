@@ -6,15 +6,5 @@ import Profile from "./pages/Profile";
 import Header from "./components/Header";
 
 export default function App() {
-  return (
-    <UserProvider>
-      <BrowserRouter>
-        <Header />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/profile/:id" element={<Profile />} />
-        </Routes>
-      </BrowserRouter>
-    </UserProvider>
   );
 }

@@ -20,7 +20,7 @@ app.use(express.json({ limit: "10mb" }));
 // ---------- Public dir (for testdata/prefill JSON) ----------
 const publicDir = path.join(__dirname, "public");
 if (!fs.existsSync(publicDir)) fs.mkdirSync(publicDir, { recursive: true });
-app.use("/public", express.static(publicDir));
+app.use("/", express.static(publicDir));
 
 // ---------- React Build ----------
 const clientBuildPath = path.join(__dirname, "gui-api", "build");
@@ -31,23 +31,6 @@ if (fs.existsSync(clientBuildPath)) {
 }
 
 /* ---------- /generate-testcases ---------- */
-app.post("/generate-testcases", async (req, res) => {
-  try {
-    const { endpoint, numCases = 5 } = req.body || {};
-    if (!endpoint) return res.status(400).json({ error: "Missing endpoint" });
-
-    const existing = loadTestCasesFromFile(endpoint);
-    if (existing && existing.length > 0) {
-      return res.json({ fromCache: true, cases: existing.slice(0, numCases) });
-    }
-
-    console.log(`🔎 Generating ${numCases} test cases for ${endpoint}`);
-    const cases = await generateTestCases(endpoint, [], numCases);
-
-    const uiTestdataPath = path.join(publicDir, "testdata.json");
-    let uiExisting = {};
-    if (fs.existsSync(uiTestdataPath)) {
-      try {
         uiExisting = JSON.parse(fs.readFileSync(uiTestdataPath, "utf-8"));
       } catch {}
     }
@@ -75,40 +58,6 @@ app.post("/save-result", (req, res) => {
 /* ---------- Routes scanner ---------- */
 let rollbackCache = {};
 const prefillPath = path.join(publicDir, "gui-prefill.json");
-
-app.get("/routes", (req, res) => {
-  try {
-    let targetFile = null;
-
-    if (fs.existsSync(prefillPath)) {
-      const pref = JSON.parse(fs.readFileSync(prefillPath, "utf-8"));
-      if (pref && pref.file) {
-        targetFile = pref.file; // CLI wrote this
-      }
-    }
-
-    if (!targetFile) {
-      return res.status(400).json({ error: "No file selected by CLI (gui-prefill.json missing)" });
-    }
-
-    const routes = extractRoutes(targetFile);
-    console.log(`✅ Using CLI-selected file: ${targetFile}, found ${routes.length} routes`);
-
-    res.json(routes.map(r => ({ ...r, file: targetFile })));
-  } catch (err) {
-    console.error("❌ /routes error:", err.message || err);
-    res.status(500).json({ error: err.message });
-  }
-});
-
-/* ---------- Code fetching ---------- */
-app.get("/code", (req, res) => {
-  const { file, endpoint } = req.query;
-  if (!file) return res.status(400).send("Missing file");
-
-  try {
-    const code = fs.readFileSync(file, "utf-8");
-    rollbackCache[file] = code;
 
     if (endpoint && code.includes(endpoint)) {
       const lines = code.split("\n");
@@ -142,45 +91,6 @@ app.get("/code", (req, res) => {
 
 /* ---------- Proxy (perform request server-side to avoid CORS) ---------- */
 
-app.post("/proxy", async (req, res) => {
-  try {
-    const { url, method = "GET", headers = {}, body } = req.body || {};
-    if (!url) return res.status(400).json({ error: "Missing url" });
-
-    const resp = await axios({
-      method: method.toLowerCase(),
-      url,
-      headers,
-      data: body,
-      timeout: 20000,
-      validateStatus: () => true,
-    });
-
-    // ✅ Generate RCA on error status
-    let rcaText = "";
-    if (resp.status >= 400) {
-      rcaText = await analyzeFailure({
-        method,
-        path: url,
-        params: {},
-        query: {},
-        body,
-        error: resp.data,
-      });
-    }
-
-    return res.json({
-      proxied: true,
-      status: resp.status,
-      headers: resp.headers,
-      data: resp.data,
-      rca: rcaText, // ✅ include RCA in response
-    });
-  } catch (err) {
-    console.error("❌ /proxy error:", err.message || err);
-    return res.status(500).json({
-      proxied: false,
-      error: err.message || "Proxy error",
       rca: "RCA unavailable due to proxy failure.",
     });
   }
@@ -188,33 +98,6 @@ app.post("/proxy", async (req, res) => {
 
 
 /* ---------- Save & Rollback ---------- */
-app.post("/save-code", (req, res) => {
-  const { code, file } = req.body;
-  if (!file || !code) return res.status(400).json({ error: "Missing file or code" });
-
-  try {
-    fs.writeFileSync(file, code, "utf-8");
-    res.json({ ok: true, savedTo: file });
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-});
-
-app.post("/rollback-code", (req, res) => {
-  const { file } = req.body;
-  if (!file || !rollbackCache[file]) {
-    return res.status(400).json({ error: "No rollback snapshot for this file" });
-  }
-  try {
-    fs.writeFileSync(file, rollbackCache[file], "utf-8");
-    res.json({ ok: true, rolledBack: file });
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-});
-
-/* ---------- SPA fallback ---------- */
-app.use((req, res) => {
   const indexPath = path.join(clientBuildPath, "index.html");
   if (fs.existsSync(indexPath)) {
     res.sendFile(indexPath);

@@ -8,65 +8,7 @@
         "username": "testuser",
         "password": "Password123!",
         "email": "testuser@example.com"
-      }
-    },
-    {
-      "name": "Invalid case - Missing username",
-      "params": {},
-      "query": {},
-      "data": {
-        "password": "Password123!",
-        "email": "testuser@example.com"
-      }
-    },
-    {
-      "name": "Invalid case - Invalid email format",
-      "params": {},
-      "query": {},
-      "data": {
-        "username": "testuser",
-        "password": "Password123!",
-        "email": "invalid-email-format"
-      }
-    },
-    {
-      "name": "Invalid case - Password too weak",
-      "params": {},
-      "query": {},
-      "data": {
-        "username": "testuser",
-        "password": "123",
-        "email": "testuser@example.com"
-      }
-    },
-    {
-      "name": "Edge case - Duplicate username",
-      "params": {},
-      "query": {},
-      "data": {
-        "username": "existinguser",
-        "password": "Password123!",
-        "email": "newuser@example.com"
-      }
-    }
-  ],
-  "/orders/12345": [
-    {
-      "name": "Valid case - Retrieve order details",
-      "params": {
-        "orderId": "12345"
       },
-      "query": {},
-      "data": {}
-    },
-    {
-      "name": "Invalid case - Order ID does not exist",
-      "params": {
-        "orderId": "99999"
-      },
-      "query": {},
-      "data": {}
-    },
     {
       "name": "Invalid case - Order ID is a negative number",
       "params": {

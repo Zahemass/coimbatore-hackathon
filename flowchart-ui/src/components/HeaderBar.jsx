@@ -5,10 +5,7 @@ import { githubPull, githubPush } from "../utils/api";
 
 export default function HeaderBar({
   showBack,
-  onBack,
-  onReloadFlow,
-  currentFile,
-  currentCode,
+  
 }) {
   const [showMenu, setShowMenu] = useState(false);
   const [statusMsg, setStatusMsg] = useState(""); // ✅ status message
@@ -16,25 +13,7 @@ export default function HeaderBar({
 
   const showStatus = (msg, type = "info") => {
     setStatusMsg(msg);
-    setStatusType(type);
-    setTimeout(() => setStatusMsg(""), 5000); // ✅ auto-hide after 5s
-  };
-
-  const handlePull = async () => {
-    try {
-      const { files } = await githubPull("Zahemass", "flowchart-updates");
-      console.log("📥 Pulled files:", files);
-      onReloadFlow && onReloadFlow(files);
-      showStatus("✅ GitHub pull successful!", "success");
-    } catch (err) {
-      showStatus("❌ Pull failed: " + err.message, "error");
-    }
-  };
-
-  const handlePush = async () => {
-    if (!currentFile || !currentCode) {
-      showStatus("⚠️ No file selected to push!", "error");
-      return;
+  
     }
 
     try {
@@ -91,17 +70,7 @@ export default function HeaderBar({
               opacity: statusMsg ? 1 : 0,
             }}
           >
-            {statusMsg}
-          </div>
-        )}
-      </div>
-
-      
-
-      {/* Right side */}
-      <div className="header-right">
-        <button className="icon-btn">
-          <RefreshCw />
+            {stat
         </button>
       </div>
     </header>
